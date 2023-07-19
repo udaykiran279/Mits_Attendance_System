@@ -105,13 +105,17 @@ def capture():
     encoded_data = captured_image.split(',')[1]
     nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
     img1= cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    cap_path=f'retrieve_images/cap.jpg'
+    cap_path=f'upload_images/cap.jpg'
     cv2.imwrite(cap_path, img1)
     #roll_no pic to retrieve
-    storage.child(f'{roll_no}.jpg').download('',f'{roll_no}.jpg')
-    img2=cv2.imread(f'{roll_no}.jpg')
+    url=storage.child(f'{roll_no}.jpg').get_url(None)
+    response = requests.get(url)
+    if response.status_code == 200:
+        with open(f'retreive/{roll_no}.jpg', 'wb') as f:
+            f.write(response.content)
+    img2=cv2.imread(f'retrieve/{roll_no}.jpg')
     image1= Image.open(cap_path)
-    image2=Image.open(f'{roll_no}.jpg')
+    image2=Image.open(f'retrieve/{roll_no}.jpg')
     image_bytes = io.BytesIO()
     image1.save(image_bytes, format='JPEG')
     image_bytes = image_bytes.getvalue()
@@ -136,7 +140,7 @@ def capture():
             response = requests.post(deepface_api_url, files=payload)
             result = response.json()
             os.remove(cap_path)
-            os.remove(f'{roll_no}.jpg')
+            os.remove(f'retrieve/{roll_no}.jpg')
             if result=='True':
 
                 #d={'20691a3157':['3','AI']}
@@ -147,7 +151,7 @@ def capture():
                 return "Different"
         else:
             os.remove(cap_path)
-            os.remove(f'{roll_no}.jpg')
+            os.remove(f'retrieve/{roll_no}.jpg')
             return render_template("index.html",msg="Fake...Don't Cheat us 😄")
     
         
