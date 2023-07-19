@@ -6,11 +6,8 @@ from datetime import datetime
 import requests
 import numpy as np
 from PIL import Image
-#from tensorflow.keras.preprocessing.image import img_to_array
-#from tensorflow.keras.models import model_from_json
 from pathlib import Path
 from facetools import FaceDetection, LivenessDetection
-from facetools.utils import visualize_results
 import pandas as pd
 import pyrebase
 from pathlib import Path
@@ -22,8 +19,6 @@ import io
 
 app=Flask(__name__)
 
-
-app.secret_key='udaykiranchowdary2002'
 df=pd.read_csv("class-merge.csv")
 model=pickle.load(open("model.pkl","rb"))
 config={
