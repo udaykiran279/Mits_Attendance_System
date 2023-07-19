@@ -91,20 +91,21 @@ def capture():
     roll_no=request.form.get('rollno').upper()
     year=request.form.get('year')
     dept=request.form.get('dept').upper()
-    '''if year=="1":
-        std_data=database.child("First").child(dept).child(roll_no).get()
-    elif year=="2":
-        std_data=database.child("Second").child(dept).child(roll_no).get()
-    elif year=="3":
-        std_data=database.child("Third").child(dept).child(roll_no).get()
-    elif year=="4":
-        std_data=database.child("Four").child(dept).child(roll_no).get()
-    if std_data.val()['Room']=="":
-            return render_template("student.html",msg="No Class Scheduled Yet.")'''
+    #if year=="1":
+        #std_data=database.child("First").child(dept).child(roll_no).get()
+    #elif year=="2":
+        #std_data=database.child("Second").child(dept).child(roll_no).get()
+    #elif year=="3":
+        #std_data=database.child("Third").child(dept).child(roll_no).get()
+    #elif year=="4":
+        #std_data=database.child("Four").child(dept).child(roll_no).get()
+    #if std_data.val()['Room']=="":
+            #return render_template("student.html",msg="No Class Scheduled Yet.")
 
-    encoded_data = captured_image.split(',')[1]
-    nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
-    img1= cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    #encoded_data = captured_image.split(',')[1]
+    #nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
+    #img1= cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    img1=Image.open('retrieve_images/20691a3157.jpg')
     #cap_path=f'upload_images/cap.jpg'
     #cv2.imwrite(cap_path, img1)
     #roll_no pic to retrieve
