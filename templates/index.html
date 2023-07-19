@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign In</title>
+    <style>
+        video {
+            width: 30%;
+            height: 7;
+        }
+        .progress-bar {
+            width: 30%;
+            height: 5px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #0a87ca;
+            border-radius: 4px;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mits Attendnace</title>
+    <link rel="stylesheet"  type='text/css' media='screen' href="{{ url_for('static', filename='css/style3.css') }}">
+    <script>
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+                var video = document.getElementById('video');
+                video.srcObject = stream;
+                // video.play();
+            })
+            .catch(function(error) {
+                console.log('Error accessing the camera: ', error);
+            });
+
+        function captureImage() {
+            var video = document.getElementById('video');
+            var canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            var context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            var imageDataURL = canvas.toDataURL('image/jpeg');
+            
+            var progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '10%';
+
+            var form = document.getElementById('captureForm');
+            var imageInput = document.getElementById('imageInput');
+            progressBar.style.width = '40%';
+            imageInput.value = imageDataURL;
+
+            progressBar.style.width = '60%';
+            form.submit();
+        }
+    </script>
+</head>
+<body>
+            <!-- <input type="hidden" id="imageInput" name="image"> -->
+            <!-- <form id="captureForm" method="POST" action="/capture"></form> -->
+            <!-- <button type="button" onclick="captureImage()">Capture</button> -->
+
+
+            <div class="container">
+                <div class="title"><b>Mits Attendance</b></div><br>
+                <div class="content">
+                  <div>
+                    <center><p><marquee><b>{{remsg}}</b></marquee></p><br>
+                    </center>
+                  </div>
+                  <div class="home-but">
+                    <button id="h"><a href="/">HOME</a></button>
+                  </div>
+                  <center><h1> Face Login </h1></center>
+                <center>
+            <br>
+            <marquee>{{msg}}</marquee>
+                  <form id="captureForm" method="POST" action="/capture">
+                    <center>
+                    <div class="user-details">
+                        <div class="input-box">
+                            <span class="details"><b>Roll Number</b></span>
+                              <input type="text" id="rollno" name="rollno" placeholder="Enter ID" required>  
+                          </div><br>
+                          <div class="input-box">
+                            <span class="details"><b>Year</b></span>
+                            <select  id="year" name="year" required="1">
+                                <option value="">--Select Your Year--</option>
+                                <option value="1" >1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                          </select>  
+                          </div><br>
+                          <div class="input-box">
+                            <span class="details"><b>Department</b></span>
+                            <select  id="dept" name="dept" required="1">
+                                <option value="">--Select Your Department--</option>
+                                <option value="AI" >AI</option>
+                                <option value="CIVIL">CIVIL</option>
+                                <option value="CSE">CSE</option>
+                                <option value="DS">DS</option>
+                                <option value="ECE">ECE</option>
+                                <option value="EEE">EEE</option>
+                                <option value="MBA">MBA</option>
+                                <option value="MCA">MCA</option>
+                                <option value="MECH">MECH</option>
+                          </select>
+                          </div><br>
+                      <input type="hidden" id="imageInput" name="image">
+                      <br>
+                      <center><video id="video" autoplay></video>
+                    <div class="progress-bar">
+                        <div id="progressBar" class="progress-bar-fill" style="width: 0;"></div>
+                    </div></center>
+                    <br>
+                  </center>
+                  <center><div class="button">
+                    <input type="submit"  onclick="captureImage()" value="Capture"><br><br>
+                    </div></center>
+            
+            
+                  </form>
+                  
+              </div>
+              
+            </div>
+    
+</body>
+</html>
+

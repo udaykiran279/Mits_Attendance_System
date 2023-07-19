@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="stylesheet"  type='text/css' media='screen' href="{{ url_for('static', filename='css/style3.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facultyform</title>
+</head>
+<body>
+  <div class="container">
+    <div class="title"><b>Mits Attendance</b></div><br>
+    <div class="content">
+      <div>
+        <center><p><marquee><b>{{remsg}}</b></marquee></p><br>
+        </center>
+      </div>
+      <div class="home-but">
+        <button id="h"><a href="/">HOME</a></button>
+      </div>
+      <form action="{{ url_for('create')}}" method="POST">
+        <center>
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details"><b>Faculty_Id</b></span>
+              <input type="text" id="rollno" name="rollno" placeholder="Enter ID" required>  
+          </div><br>
+          <div class="input-box">
+            <span class="details"><b>Enter Course</b></span>
+              <input type="text" id="dep" name="dept" placeholder="Enter Course name" required>  
+          </div><br>
+          <div class="input-box">
+            <span class="details"><b>Room NO</b></span>
+            <select  id="rmn" name="Room_no" required="1">
+                <option value="">--Select Room-no--</option>
+                <option value="216" >216</option>
+                <option value="217">217</option>
+          </select>
+          </div><br>
+      </center>
+      <center><div class="button">
+        <input type="submit" value="Create"><br><br>
+        <br></div>
+        <br>
+        <div>
+          <button id="but"><a href="{{ url_for('download')}}">Download</a></button>
+        </div>
+        </div></center>
+        <br>
+        <center><div>
+          {{ msg }}
+        </div></center>
+
+
+      </form>
+        
+    </div>
+    
+    <script>
+      function popup(){
+        prompt=alert("Attendance Sheet")
+      }
+    
+    </script>
+    
+    
+  </div>
+  
+</div>
+
+
+  
+</body>
+</html>

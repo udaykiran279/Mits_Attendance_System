@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Camera Capture</title>
+</head>
+<body>
+    <h1>Camera Capture</h1>
+    <video id="video" width="400" height="300" autoplay></video>
+    <button id="capture">Capture</button>
+
+    <script>
+        // Access the camera and display the video feed
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+            })
+            .catch(err => console.error('Error accessing the camera:', err));
+
+        // Capture image from video feed and send it to Flask backend
+        const captureButton = document.getElementById('capture');
+        captureButton.addEventListener('click', () => {
+            const canvas = document.createElement('canvas');
+            const video = document.getElementById('video');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const dataURL = canvas.toDataURL('image/jpeg');
+
+            // Send the captured image to the Flask backend
+            fetch('/detect', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ image: dataURL })
+            })
+            .then(response => response.json())
+            .then(detectionResults => {
+                // Handle the face detection results returned from Flask
+                console.log(detectionResults);
+            })
+            .catch(err => console.error('Error capturing and detecting face:', err));
+        });
+    </script>
+</body>
+</html>
+

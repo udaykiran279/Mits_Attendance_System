@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="stylesheet"  type='text/css' media='screen' href="{{ url_for('static', filename='css/style3.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>student sign up</title>
+</head>
+<body>
+  <div class="container">
+    <div class="title"><b>Student sign up</b></div><br>
+    <div class="content">
+      <div>
+        <center><p><marquee><b>{{msg}}</b></marquee></p><br>
+        </center>
+      </div>
+      <div class="home-but">
+        <button id="h"><a href="/">HOME</a></button>
+        <button id="h"><a href="{{url_for('std')}}">Back</a></button>
+      </div>
+      <form action="{{ url_for('stdsignup')}}" method="POST" enctype="multipart/form-data">
+        <center>
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details"><b>Roll Number</b></span>
+              <input type="text" id="rollno" name="rollno" placeholder="Enter ID" required>  
+          </div><br>
+          <div class="input-box">
+            <span class="details"><b>Year</b></span>
+            <select  id="year" name="year" required="1">
+                <option value="">--Select Your Year--</option>
+                <option value="1" >1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+          </select>
+          </div><br>
+          <div class="input-box">
+            <span class="details"><b>Department</b></span>
+            <select  id="dept" name="dept" required="1">
+                <option value="">--Select Your Department--</option>
+                <option value="AI" >AI</option>
+                <option value="CIVIL">CIVIL</option>
+                <option value="CSE">CSE</option>
+                <option value="DS">DS</option>
+                <option value="ECE">ECE</option>
+                <option value="EEE">EEE</option>
+                <option value="MBA">MBA</option>
+                <option value="MCA">MCA</option>
+                <option value="MECH">MECH</option>
+          </select>
+          </div><br>
+          <div class="input-box">
+            <!-- <span class="details"><b>Profile Photo</b></span> -->
+              <input type="file" id="face_pic" name="face_pic" placeholder="Upload your Passport size pic." required>  
+          </div><br>
+      </center>
+      <center><div class="button">
+        <input type="submit" value="Create"><br><br>
+        <br>
+        <br>
+
+
+      </form>
+        
+    </div>
+    
+    
+    
+  </div>
+  
+</div>
+
+
+  
+</body>
+</html>
