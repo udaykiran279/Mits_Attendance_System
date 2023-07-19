@@ -105,6 +105,16 @@ def capture():
     encoded_data = captured_image.split(',')[1]
     nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
     img1= cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    image1= Image.fromarray(img1)
+    image_bytes = io.BytesIO()
+    image1.save(image_bytes, format="JPG")
+    image_bytes = image_bytes.getvalue()
+    roll_path=storage.child(f"{roll_no}.jpg").get_url(None)
+    response = requests.get(roll_path)
+
+    # Convert the image data (response content) to bytes
+    if response.status_code == 200:
+        image_bytes2= response.content
     #img1=Image.open('retrieve_images/20691a3157.jpg')
     #cap_path=f'upload_images/cap.jpg'
     #cv2.imwrite(cap_path, img1)
@@ -123,16 +133,29 @@ def capture():
     #image_bytes2= io.BytesIO()
     #image2.save(image_bytes2, format='JPEG')
     #image_bytes2= image_bytes2.getvalue()
-    time.sleep(1)
-    faces, boxes = faceDetector(img1)
-    time.sleep(1)
-    for face_arr, box in zip(faces, boxes):
+    #time.sleep(1)
+    payload = {
+            'image1': image_bytes,
+            'image2': image_bytes2
+    }
+
+    # Make a POST request to the DeepFace API on PythonAnywhere
+    deepface_api_url = 'https://udaykirannaidu.pythonanywhere.com/compare'  # Replace with your DeepFace API endpoint URL on PythonAnywhere
+    response = requests.post(deepface_api_url, files=payload)
+    result = response.json()
+    if result=='True':
+        return render_template("index.html",msg="Yeah you are real and same")
+    else:
+        return render_template("index.html",msg="Dont cheat us ok 😄")
+    #faces, boxes = faceDetector(img1)
+    #time.sleep(1)
+    #for face_arr, box in zip(faces, boxes):
         #min_sim_score, mean_sim_score = identityChecker(face_arr)
-        liveness_score = livenessDetector(face_arr)
-        if liveness_score>0.65:
-            return render_template(msg="yeah you are real 😄")
-        else:
-            return render_template(msg="you are Fake")
+        #liveness_score = livenessDetector(face_arr)
+        #if liveness_score>0.65:
+            #return render_template(msg="yeah you are real 😄")
+        #else:
+            #return render_template(msg="you are Fake")
             
             #result = DeepFace.verify(cap_path,f'{rr_roll}.jpg',model_name='Facenet', distance_metric='euclidean_l2')
             #payload = {
