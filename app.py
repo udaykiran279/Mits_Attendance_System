@@ -102,10 +102,10 @@ def capture():
     #if std_data.val()['Room']=="":
             #return render_template("student.html",msg="No Class Scheduled Yet.")
 
-    #encoded_data = captured_image.split(',')[1]
-    #nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
-    #img1= cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    img1=Image.open('retrieve_images/20691a3157.jpg')
+    encoded_data = captured_image.split(',')[1]
+    nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
+    img1= cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    #img1=Image.open('retrieve_images/20691a3157.jpg')
     #cap_path=f'upload_images/cap.jpg'
     #cv2.imwrite(cap_path, img1)
     #roll_no pic to retrieve
@@ -123,13 +123,16 @@ def capture():
     #image_bytes2= io.BytesIO()
     #image2.save(image_bytes2, format='JPEG')
     #image_bytes2= image_bytes2.getvalue()
+    time.sleep(1)
     faces, boxes = faceDetector(img1)
-
+    time.sleep(1)
     for face_arr, box in zip(faces, boxes):
         #min_sim_score, mean_sim_score = identityChecker(face_arr)
         liveness_score = livenessDetector(face_arr)
         if liveness_score>0.65:
-            return("yeah you are real 😄")
+            return render_template(msg="yeah you are real 😄")
+        else:
+            return render_template(msg="you are Fake")
             
             #result = DeepFace.verify(cap_path,f'{rr_roll}.jpg',model_name='Facenet', distance_metric='euclidean_l2')
             #payload = {
@@ -151,10 +154,10 @@ def capture():
                 #return "same"
             #else:
                 #return "Different"
-        else:
+        #else:
             #os.remove(cap_path)
             #os.remove(f'retrieve/{roll_no}.jpg')
-            return render_template("index.html",msg="Fake...Don't Cheat us 😄")
+            #return render_template("index.html",msg="Fake...Don't Cheat us 😄")
     
         
 @app.route('/index')
