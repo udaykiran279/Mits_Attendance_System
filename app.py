@@ -7,6 +7,8 @@ import requests
 import numpy as np
 from PIL import Image
 from pathlib import Path
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
 from facetools import FaceDetection, LivenessDetection
 import pandas as pd
 import pyrebase
@@ -20,7 +22,7 @@ import io
 app=Flask(__name__)
 
 df=pd.read_csv("class-merge.csv")
-model=pickle.load(open("model.pkl","rb"))
+#model=pickle.load(open("model.pkl","rb"))
 config={
     "apiKey": "AIzaSyAYey8JOEz4XrP_kZTFV0KSwIU9QK8FmCo",
   "authDomain": "mits-students-data.firebaseapp.com",
@@ -253,8 +255,14 @@ def predict():
     lon.append(vals[-1])
     l1=float(str(vals[-2])[0:10])
     lo1=float(str(vals[-1])[0:10])
-    mark=model.predict([[l1,lo1,room],])[0]
-    print(mark)
+    x=df.drop("place",axis=1)
+    y=df.place
+    #x_train,x_test,y_train,y_test=train_test_split(features, labels, test_size=0.2, random_state=42)
+    knn = KNeighborsClassifier(n_neighbors=1,metric='manhattan')
+    knn.fit(x,y)
+    mark=knn.predict([[l1,lo1,room],])[0]
+    #mark=model.predict([[l1,lo1,room],])[0]
+    #print(mark)
     if mark==0:
         marked="Absent"
         status.append(marked)
