@@ -107,7 +107,7 @@ def capture():
     img1= cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     image1= Image.fromarray(img1)
     image_bytes = io.BytesIO()
-    image1.save(image_bytes, format="JPG")
+    image1.save(image_bytes, format="JPEG")
     image_bytes = image_bytes.getvalue()
     roll_path=storage.child(f"{roll_no}.jpg").get_url(None)
     response = requests.get(roll_path)
