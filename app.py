@@ -128,7 +128,7 @@ def capture():
         #min_sim_score, mean_sim_score = identityChecker(face_arr)
         liveness_score = livenessDetector(face_arr)
         if liveness_score>0.65:
-            return render_template("index.html",msg="yeah you are real 😄")
+            return("yeah you are real 😄")
             
             #result = DeepFace.verify(cap_path,f'{rr_roll}.jpg',model_name='Facenet', distance_metric='euclidean_l2')
             #payload = {
