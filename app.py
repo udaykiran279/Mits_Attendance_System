@@ -26,10 +26,8 @@ app=Flask(__name__)
 
 app.secret_key='udaykiranchowdary2002'
 df=pd.read_csv("class-merge.csv")
-model=pickle.load(open("model.pkl","rb"))
+#model=pickle.load(open("model.pkl","rb"))
 
-cred = credentials.Certificate("security.json")
-firebase_admin.initialize_app(cred)
 
 config={
     "apiKey": "AIzaSyAYey8JOEz4XrP_kZTFV0KSwIU9QK8FmCo",
@@ -62,12 +60,12 @@ root = Path(os.path.abspath(__file__)).parent.absolute()
 data_folder = root / "data"
 
 #resNet_checkpoint_path = data_folder / "checkpoints" / "InceptionResnetV1_vggface2.onnx"
-facebank_path = data_folder / "reynolds.csv"
+#facebank_path = data_folder / "reynolds.csv"
 
-deepPix_checkpoint_path = data_folder / "checkpoints" / "OULU_Protocol_2_model_0_0.onnx"
+#deepPix_checkpoint_path = data_folder / "checkpoints" / "OULU_Protocol_2_model_0_0.onnx"
 
-faceDetector = FaceDetection(max_num_faces=1)
-livenessDetector = LivenessDetection(checkpoint_path=deepPix_checkpoint_path.as_posix())
+#faceDetector = FaceDetection(max_num_faces=1)
+#livenessDetector = LivenessDetection(checkpoint_path=deepPix_checkpoint_path.as_posix())
 
 @app.route("/")
 
