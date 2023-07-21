@@ -196,10 +196,10 @@ def create():
 @app.route("/predict",methods=["POST","GET"])
 
 def predict():
-    roll=request.form.get('roll').upper()
+    roll=request.form.get('roll')
     year=request.form.get('year')
-    dept=request.form.get('deptart').upper()
-    cour=request.form.get('course').upper()
+    dept=request.form.get('deptart')
+    cour=request.form.get('course')
     room_no=int(request.form.get('rmn'))
     lat=float(request.form.get('lat'))
     lon=float(request.form.get('lon'))
