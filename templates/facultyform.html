@@ -23,18 +23,43 @@
         <div class="user-details">
           <div class="input-box">
             <span class="details"><b>Faculty_Id</b></span>
-              <input type="text" id="rollno" name="rollno" placeholder="Enter ID" required>  
+              <input type="text" id="facid" name="facid" placeholder="Enter ID" required>  
           </div><br>
           <div class="input-box">
             <span class="details"><b>Enter Course</b></span>
-              <input type="text" id="dep" name="dept" placeholder="Enter Course name" required>  
+              <input type="text" id="course" name="course" placeholder="Enter Course name" required>  
           </div><br>
           <div class="input-box">
             <span class="details"><b>Room NO</b></span>
-            <select  id="rmn" name="Room_no" required="1">
+            <select  id="rmn" name="rmn" required="1">
                 <option value="">--Select Room-no--</option>
                 <option value="216" >216</option>
                 <option value="217">217</option>
+          </select>
+          </div><br>
+          <div class="input-box">
+            <span class="details"><b>Year</b></span>
+            <select  id="year" name="year" required="1">
+                <option value="">--Select Year--</option>
+                <option value="First" >First</option>
+                <option value="Second">Second</option>
+                <option value="Third">Third</option>
+                <option value="Fourth">Fourth</option>
+          </select>
+          </div><br>
+          <div class="input-box">
+            <span class="details"><b>Department</b></span>
+            <select  id="dept" name="dept" required="1">
+                <option value="">--Select Your Department--</option>
+                <option value="AI" >AI</option>
+                <option value="CIVIL">CIVIL</option>
+                <option value="CSE">CSE</option>
+                <option value="DS">DS</option>
+                <option value="ECE">ECE</option>
+                <option value="EEE">EEE</option>
+                <option value="MBA">MBA</option>
+                <option value="MCA">MCA</option>
+                <option value="MECH">MECH</option>
           </select>
           </div><br>
       </center>
@@ -43,7 +68,7 @@
         <br></div>
         <br>
         <div>
-          <button id="but"><a href="{{ url_for('download')}}">Download</a></button>
+          <button id="but"><a href="{{ url_for('view_attend')}}">View Attendance</a></button>
         </div>
         </div></center>
         <br>
