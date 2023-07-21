@@ -7,12 +7,14 @@ import requests
 import numpy as np
 from PIL import Image
 from pathlib import Path
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
+import urllib.request
 from facetools import FaceDetection, LivenessDetection
 import pandas as pd
+from io import StringIO
+from sklearn.neighbors import KNeighborsClassifier
 import pyrebase
-from pathlib import Path
+import firebase_admin
+from firebase_admin import credentials, storage
 import pickle
 import base64
 import time
@@ -21,8 +23,14 @@ import io
 
 app=Flask(__name__)
 
+
+app.secret_key='udaykiranchowdary2002'
 df=pd.read_csv("class-merge.csv")
-#model=pickle.load(open("model.pkl","rb"))
+model=pickle.load(open("model.pkl","rb"))
+
+cred = credentials.Certificate("security.json")
+firebase_admin.initialize_app(cred)
+
 config={
     "apiKey": "AIzaSyAYey8JOEz4XrP_kZTFV0KSwIU9QK8FmCo",
   "authDomain": "mits-students-data.firebaseapp.com",
@@ -36,6 +44,7 @@ config={
 firebase=pyrebase.initialize_app(config)
 database=firebase.database()
 storage=firebase.storage()
+bucket = storage.bucket("mits-students-data.appspot.com")
 firebaseConfig1={
   'apiKey': "AIzaSyBWW3MflR1E_duhKdz-6TD5PQnp6YQmWz0",
   'authDomain': "staff-details-495df.firebaseapp.com",
@@ -50,15 +59,6 @@ firebase1=pyrebase.initialize_app(firebaseConfig1)
 auth1=firebase1.auth()
 
 
-l=[]
-roll=[]
-year=[]
-depa=[]
-lat=[]
-lon=[]
-roomno=[]
-status=[]
-filename=[]
 root = Path(os.path.abspath(__file__)).parent.absolute()
 data_folder = root / "data"
 
@@ -84,6 +84,39 @@ def std():
 @app.route("/ssup")
 def ssup():
     return render_template("stdsignup.html")
+@app.route("/fac_form")
+def fac_form():
+    return render_template("facultyform.html")
+
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+@app.route("/faculty")
+def faculty():
+    return render_template("faculty.html")
+
+#student routes
+@app.route("/stdsignup",methods=["POST"])
+def stdsignup():
+    roll=request.form['rollno'].upper()
+    year=request.form['year']
+    dept=request.form['dept'].upper()
+    file=request.files['face_pic']
+    data={'Roll':roll,'Year':year,'Department':dept,'faculty_id':'','Room':'','course':'','status':''}
+    d={"1":"First","2":"Second","3":"Third","4":"Fourth"}
+    check=database.child(d[year]).child(dept).child(roll).get()
+    if check is not None:
+        return render_template("stdsignup.html",msg=f"{roll} Data Exist.")
+    database.child(d[year]).child(dept).child(roll).set(data)
+    image = Image.open(file)
+    save_path = "upload_images/"+f'{roll}.jpg'
+    image.save(save_path)
+    storage.child(f'{roll}.jpg').put(save_path)
+    os.remove(save_path)
+
+    return render_template("student.html",msg="Uploaded Successfully.Log Back to your Account")
+
 
 @app.route("/capture",methods=["POST","GET"])
 def capture():
@@ -91,16 +124,12 @@ def capture():
     roll_no=request.form.get('rollno').upper()
     year=request.form.get('year')
     dept=request.form.get('dept').upper()
-    #if year=="1":
-        #std_data=database.child("First").child(dept).child(roll_no).get()
-    #elif year=="2":
-        #std_data=database.child("Second").child(dept).child(roll_no).get()
-    #elif year=="3":
-        #std_data=database.child("Third").child(dept).child(roll_no).get()
-    #elif year=="4":
-        #std_data=database.child("Four").child(dept).child(roll_no).get()
-    #if std_data.val()['Room']=="":
-            #return render_template("student.html",msg="No Class Scheduled Yet.")
+    d={"1":"First","2":"Second","3":"Third","4":"Fourth"}
+    std_data=database.child(d[year]).child(dept).child(roll_no).get()
+    if std_data.val() is None:
+        return render_template("index.html",msg="Check You Credentials correctly")
+    if std_data.val()['Room']=="":
+        return render_template("student.html",msg="No Class Scheduled Yet.")
 
     encoded_data = captured_image.split(',')[1]
     nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
@@ -111,118 +140,30 @@ def capture():
     image_bytes = image_bytes.getvalue()
     roll_path=storage.child(f"{roll_no}.jpg").get_url(None)
     response = requests.get(roll_path)
-
-    # Convert the image data (response content) to bytes
     if response.status_code == 200:
         image_bytes2= response.content
-    #img1=Image.open('retrieve_images/20691a3157.jpg')
-    #cap_path=f'upload_images/cap.jpg'
-    #cv2.imwrite(cap_path, img1)
-    #roll_no pic to retrieve
-    #url=storage.child(f'{roll_no}.jpg').get_url(None)
-    #response = requests.get(url)
-    #if response.status_code == 200:
-        #with open(f'retreive/{roll_no}.jpg', 'wb') as f:
-            #f.write(response.content)
-    #img2=cv2.imread(f'retrieve/{roll_no}.jpg')
-    #image1= Image.open(cap_path)
-    #image2=Image.open(f'retrieve/{roll_no}.jpg')
-    #image_bytes = io.BytesIO()
-    #image1.save(image_bytes, format='JPEG')
-    #image_bytes = image_bytes.getvalue()
-    #image_bytes2= io.BytesIO()
-    #image2.save(image_bytes2, format='JPEG')
-    #image_bytes2= image_bytes2.getvalue()
-    #time.sleep(1)
+    else:
+        return render_template("index.html",msg="Check credentials correctly")
+
     payload = {
             'image1': image_bytes,
             'image2': image_bytes2
-    }
+            }
 
     # Make a POST request to the DeepFace API on PythonAnywhere
     deepface_api_url = 'https://udaykirannaidu.pythonanywhere.com/compare'  # Replace with your DeepFace API endpoint URL on PythonAnywhere
     response = requests.post(deepface_api_url, files=payload)
     result = response.json()
+    '''os.remove(cap_path)
+    os.remove(f'{roll_no}.jpg')'''
     if result=='True':
-        return render_template("index.html",msg="Yeah you are real and same")
+        att_data=database.child(d[year]).child(dept).child(roll_no).get()
+        dv=dict(att_data.val())
+        return render_template('studentform.html',roll=roll_no,year=year,dep=dept,rmn=dv['Room'],course=dv['course'])
     else:
-        return render_template("index.html",msg="Dont cheat us ok 😄")
-    #faces, boxes = faceDetector(img1)
-    #time.sleep(1)
-    #for face_arr, box in zip(faces, boxes):
-        #min_sim_score, mean_sim_score = identityChecker(face_arr)
-        #liveness_score = livenessDetector(face_arr)
-        #if liveness_score>0.65:
-            #return render_template(msg="yeah you are real 😄")
-        #else:
-            #return render_template(msg="you are Fake")
-            
-            #result = DeepFace.verify(cap_path,f'{rr_roll}.jpg',model_name='Facenet', distance_metric='euclidean_l2')
-            #payload = {
-            #'image1': image_bytes,
-            #'image2': image_bytes2
-            #}
-
-    # Make a POST request to the DeepFace API on PythonAnywhere
-            #deepface_api_url = 'https://udaykirannaidu.pythonanywhere.com/compare'  # Replace with your DeepFace API endpoint URL on PythonAnywhere
-            #response = requests.post(deepface_api_url, files=payload)
-            #result = response.json()
-            #os.remove(cap_path)
-            #os.remove(f'retrieve/{roll_no}.jpg')
-            #if result=='True':
-
-                #d={'20691a3157':['3','AI']}
-
-                #return render_template('studentform.html',roll=roll,year=d[roll][0],dep=d[roll][1],rmn='216')
-                #return "same"
-            #else:
-                #return "Different"
-        #else:
-            #os.remove(cap_path)
-            #os.remove(f'retrieve/{roll_no}.jpg')
-            #return render_template("index.html",msg="Fake...Don't Cheat us 😄")
-    
-        
-@app.route('/index')
-def index():
-    return render_template('index.html')
-
-@app.route("/faculty")
-def faculty():
-    return render_template("faculty.html")
+        return render_template("index.html",msg=f"Identity did not match with {roll_no} 😄")
 
 
-@app.route("/stdsignup",methods=["POST"])
-def stdsignup():
-    roll=request.form['rollno'].upper()
-    year=request.form['year']
-    dept=request.form['dept'].upper()
-    file=request.files['face_pic']
-    data={'Roll':roll,'Year':year,'Department':dept,'Room':'','status':''}
-    if year=='1':
-        database.child("First").child(dept).child(roll).set(data)
-    elif year=='2':
-        database.child("Second").child(dept).child(roll).set(data)
-    elif year=='3':
-        database.child("Third").child(dept).child(roll).set(data)
-    elif year=='4':
-        database.child("Four").child(dept).child(roll).set(data)
-    image = Image.open(file)
-    save_path = "upload_images/"+f'{roll}.jpg'
-    image.save(save_path)
-    storage.child(f'{roll}.jpg').put(save_path)
-    os.remove(save_path)
-
-    return render_template("student.html",msg="Uploaded Successfully.Log Back to your Account")
-
-    '''k=[i for i in request.form.values()]
-    email=k[0].lower()
-    password=k[1]
-    try:
-        auth.create_user_with_email_and_password(email,password)
-        return render_template("student.html")
-    except:
-        return render_template("student.html",msg="Email Already Exists")'''
 @app.route("/facsignup",methods=["POST","GET"])
 def facsignup():
     k=[i for i in request.form.values()]
@@ -247,79 +188,90 @@ def facsignin():
 
 @app.route("/create",methods=["POST","GET"])
 def create():
-    val=[i for i in request.form.values()]
-    print(val)
-    for i in val:
-        l.append(i)
-    remsg="Class Room Scheduled"
-    return render_template("facultyform.html",remsg=remsg)
-
-@app.route("/studentform",methods=["POST","GET"])
-
-def studentform():
-    '''sval=[i for i in request.form.values()]
-    email=sval[0].lower()
-    password=sval[1]
-    k=l
-    if len(k)==0:
-        return render_template("student.html",msg="No Class Scheduled Yet")
-    course=k[1]
-    rmn=k[-1]
-    roomno.append(rmn)
-    try:
-        auth.sign_in_with_email_and_password(email,password)
-    except:
-        return render_template("student.html",msg="Invalid User or Incorrect Password")
-        
+    fac_id=request.form.get('facid').upper()
+    course=request.form.get('course').upper()
+    room=request.form.get('rmn')
+    year=request.form.get('year')
+    dept=request.form.get('dept').upper()
+    std_data=database.child(year).child(dept).get()
+    std_val=std_data.val()
+    for i in std_val:
+        database.child(year).child(dept).child(i).update({'faculty_id':fac_id,'Room':room,'course':course})
     
-    return render_template("studentform.html",rm=rmn,course="Attendance for {} class".format(course))'''
+    return render_template("facultyform.html",remsg="Class Room Scheduled")
+
+
 
 @app.route("/predict",methods=["POST","GET"])
 
 def predict():
-    vals=[i for i in request.form.values()]
-    print(vals)
-    roll.append(vals[0])
-    year.append(vals[1])
-    depa.append(vals[2])
-    room=int(vals[3])
-    lat.append(vals[-2])
-    lon.append(vals[-1])
-    l1=float(str(vals[-2])[0:10])
-    lo1=float(str(vals[-1])[0:10])
+    roll=request.form.get('roll').upper()
+    year=request.form.get('year')
+    dept=request.form.get('deptart').upper()
+    cour=request.form.get('course').upper()
+    room_no=int(request.form.get('rmn'))
+    lat=float(request.form.get('lat'))
+    lon=float(request.form.get('lon'))
+    d={"1":"First","2":"Second","3":"Third","4":"Fourth"}
     x=df.drop("place",axis=1)
     y=df.place
-    #x_train,x_test,y_train,y_test=train_test_split(features, labels, test_size=0.2, random_state=42)
     knn = KNeighborsClassifier(n_neighbors=1,metric='manhattan')
     knn.fit(x,y)
-    mark=knn.predict([[l1,lo1,room],])[0]
-    #mark=model.predict([[l1,lo1,room],])[0]
-    #print(mark)
-    if mark==0:
-        marked="Absent"
-        status.append(marked)
+    mark=knn.predict([[lat,lon,room_no],])[0]
+    if mark==1:
+        database.child(d[year]).child(dept).child(roll).update({'status':'Present'})
+        return render_template("studentform.html",attend="Your attendence marked as: Present")
     else:
-        marked="Present"
-        status.append(marked)
-    print(status)
-    return render_template("studentform.html",attend="Your attendence marked as: "+marked)
+        return render_template("studentform.html",attend="Your attendence marked as: Absent")
+
+@app.route("/view_attend")
+def view_attend():
+    return render_template("fac_down.html")
 
 @app.route("/download",methods=["POST","GET"])
 
 def download():
-    df1=pd.DataFrame({"ROLL_NO":roll,"Year":year,"Department":depa,"status":status,"Room_no":roomno})
-    if df1.shape[0]==0:
-        return render_template("facultyform.html",msg="No Presenters Yet")
-    resp=make_response(df1.to_csv(index=False))
-    resp.headers["Content-Disposition"]="attachement;filename=attend_sheet.csv"
-    resp.headers["Content-Type"]="text/csv"
-    lat.clear()
-    lon.clear()
-    year.clear()
-    depa.clear()
-    roll.clear()
-    l.clear()
-    status.clear()
-    return resp
+    fac_id=request.form.get('facid')
+    year=request.form.get('year')
+    dept=request.form.get('dept')
+    sheet=request.form.get('sheet')
+    date=request.form.get('selectedDate')
+    d={'First':'I','Second':'II','Third':'III','Fourth':'IV'}
+    if sheet=="Download previous Classes":
+        url=storage.child("vamsi").child("data.csv").get_url(None)
+        try:
+            # Fetch the dataset from the URL using urllib
+            with urllib.request.urlopen(url) as response:
+                data = response.read().decode("utf-8")
+            # Convert the fetched data to a DataFrame using pandas
+            df = pd.read_csv(StringIO(data))
+            #print(df.shape)
+            resp=make_response(df1.to_csv(index=False))
+            resp.headers["Content-Disposition"]=f"attachement;filename={dept}-{d[year]}-{date}.csv"
+            resp.headers["Content-Type"]="text/csv"
+            return resp
+        except Exception as e:
+            return render_template("fac_down.html",msg=f"No class Scheduled on {date}")
+    else:
+
+        data_list=[]
+        std_data=database.child(year).child(dept).get()
+        std_val=std_data.val()
+        for i in std_val:
+            dd=database.child(year).child(dept).child(i).get()
+            dd_data=dict(dd.val())
+            if dd_data['faculty_id']==fac_id:
+                data_list.append(dd_data)
+                database.child(year).child(dept).child(i).update({'faculty_id':"","Room":"","course":"","status":""})
+        df1=pd.DataFrame(data_list)
+        if df1.shape[0]==0:
+            return render_template("facultyform.html",msg="No Presenters Yet or No Class Room Scheduled.")
+        current_date = datetime.today().date()
+        formatted_date = current_date.strftime("%d-%m-%Y")
+        resp=make_response(df1.to_csv(index=False))
+        resp.headers["Content-Disposition"]=f"attachement;filename={dept}-{d[year]}-{formatted_date}.csv"
+        resp.headers["Content-Type"]="text/csv"
+        return resp
+
 if __name__=='__main__':
     app.run(debug=True,host='0.0.0.0')
