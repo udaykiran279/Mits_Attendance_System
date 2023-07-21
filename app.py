@@ -213,6 +213,7 @@ def predict():
         database.child(d[year]).child(dept).child(roll).update({'status':'Present'})
         return render_template("studentform.html",attend="Your attendence marked as: Present")
     else:
+        database.child(d[year]).child(dept).child(roll).update({'status':'Absent'})
         return render_template("studentform.html",attend="Your attendence marked as: Absent")
 
 @app.route("/view_attend")
@@ -222,9 +223,9 @@ def view_attend():
 @app.route("/download",methods=["POST","GET"])
 
 def download():
-    fac_id=request.form.get('facid')
+    fac_id=request.form.get('facid').upper()
     year=request.form.get('year')
-    dept=request.form.get('dept')
+    dept=request.form.get('dept').upper()
     sheet=request.form.get('sheet')
     date=request.form.get('selectedDate')
     d={'First':'I','Second':'II','Third':'III','Fourth':'IV'}
