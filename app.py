@@ -200,7 +200,7 @@ def predict():
     year=request.form.get('year')
     dept=request.form.get('deptart')
     cour=request.form.get('course')
-    room_no=int(request.form.get('rmn'))
+    room_no=int(request.form.get('roomno'))
     lat=float(request.form.get('lat'))
     lon=float(request.form.get('lon'))
     d={"1":"First","2":"Second","3":"Third","4":"Fourth"}
