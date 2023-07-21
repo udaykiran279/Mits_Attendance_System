@@ -138,13 +138,10 @@ def capture():
     roll_path=storage.child(f"{roll_no}.jpg").get_url(None)
     response = requests.get(roll_path)
     image_bytes2= response.content
-    #else:
-        #return render_template("index.html",msg="Check credentials correctly")
-
     payload = {
             'image1': image_bytes,
             'image2': image_bytes2
-            }
+    }
 
     # Make a POST request to the DeepFace API on PythonAnywhere
     deepface_api_url = 'https://udaykirannaidu.pythonanywhere.com/compare'  # Replace with your DeepFace API endpoint URL on PythonAnywhere
