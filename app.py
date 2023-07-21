@@ -102,9 +102,9 @@ def stdsignup():
     file=request.files['face_pic']
     data={'Roll':roll,'Year':year,'Department':dept,'faculty_id':'','Room':'','course':'','status':''}
     d={"1":"First","2":"Second","3":"Third","4":"Fourth"}
-    check=database.child(d[year]).child(dept).child(roll).get()
-    if check is not None:
-        return render_template("stdsignup.html",msg=f"{roll} Data Exist.")
+    #check=database.child(d[year]).child(dept).child(roll).get()
+    #if check is not None:
+        #return render_template("stdsignup.html",msg=f"{roll} Data Exist.")
     database.child(d[year]).child(dept).child(roll).set(data)
     image = Image.open(file)
     save_path = "upload_images/"+f'{roll}.jpg'
