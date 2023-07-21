@@ -8,13 +8,13 @@ import numpy as np
 from PIL import Image
 from pathlib import Path
 import urllib.request
-from facetools import FaceDetection, LivenessDetection
+#from facetools import FaceDetection, LivenessDetection
 import pandas as pd
 from io import StringIO
 from sklearn.neighbors import KNeighborsClassifier
 import pyrebase
-import firebase_admin
-from firebase_admin import credentials, storage
+#import firebase_admin
+#from firebase_admin import credentials, storage
 import pickle
 import base64
 import time
@@ -44,7 +44,6 @@ config={
 firebase=pyrebase.initialize_app(config)
 database=firebase.database()
 storage=firebase.storage()
-bucket = storage.bucket("mits-students-data.appspot.com")
 firebaseConfig1={
   'apiKey': "AIzaSyBWW3MflR1E_duhKdz-6TD5PQnp6YQmWz0",
   'authDomain': "staff-details-495df.firebaseapp.com",
