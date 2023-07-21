@@ -137,10 +137,9 @@ def capture():
     image_bytes = image_bytes.getvalue()
     roll_path=storage.child(f"{roll_no}.jpg").get_url(None)
     response = requests.get(roll_path)
-    if response.status_code == 200:
-        image_bytes2= response.content
-    else:
-        return render_template("index.html",msg="Check credentials correctly")
+    image_bytes2= response.content
+    #else:
+        #return render_template("index.html",msg="Check credentials correctly")
 
     payload = {
             'image1': image_bytes,
@@ -151,8 +150,6 @@ def capture():
     deepface_api_url = 'https://udaykirannaidu.pythonanywhere.com/compare'  # Replace with your DeepFace API endpoint URL on PythonAnywhere
     response = requests.post(deepface_api_url, files=payload)
     result = response.json()
-    '''os.remove(cap_path)
-    os.remove(f'{roll_no}.jpg')'''
     if result=='True':
         att_data=database.child(d[year]).child(dept).child(roll_no).get()
         dv=dict(att_data.val())
