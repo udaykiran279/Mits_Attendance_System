@@ -206,7 +206,7 @@ def predict():
     d={"1":"First","2":"Second","3":"Third","4":"Fourth"}
     x=df.drop("place",axis=1)
     y=df.place
-    knn = KNeighborsClassifier(n_neighbors=1,metric='manhattan')
+    knn = KNeighborsClassifier(n_neighbors=19,metric='manhattan')
     knn.fit(x,y)
     mark=knn.predict([[lat,lon,room_no],])[0]
     if mark==1:
