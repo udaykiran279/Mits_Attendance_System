@@ -258,6 +258,9 @@ def download():
             return render_template("facultyform.html",msg="No Presenters Yet or No Class Room Scheduled.")
         current_date = datetime.today().date()
         formatted_date = current_date.strftime("%d-%m-%Y")
+        csv_file=f'{dept}-{d[year]}-{formatted_date}.csv'
+        csv_path=f"upload_images/{csv_file}"
+        storage.child(fac_id).child(csv_file).put(csv_path)
         resp=make_response(df1.to_csv(index=False))
         resp.headers["Content-Disposition"]=f"attachement;filename={dept}-{d[year]}-{formatted_date}.csv"
         resp.headers["Content-Type"]="text/csv"
