@@ -228,7 +228,8 @@ def download():
     date=request.form.get('selectedDate')
     d={'First':'I','Second':'II','Third':'III','Fourth':'IV'}
     if sheet=="Download previous Classes":
-        url=storage.child("vamsi").child("data.csv").get_url(None)
+        form_date=date.strftime("%d-%m-%Y")
+        url=storage.child("vamsi").child(f"{{dept}-{d[year]}-{form_date}.csv}").get_url(None)
         try:
             # Fetch the dataset from the URL using urllib
             with urllib.request.urlopen(url) as response:
@@ -237,7 +238,7 @@ def download():
             df = pd.read_csv(StringIO(data))
             #print(df.shape)
             resp=make_response(df1.to_csv(index=False))
-            resp.headers["Content-Disposition"]=f"attachement;filename={dept}-{d[year]}-{date}.csv"
+            resp.headers["Content-Disposition"]=f"attachement;filename={dept}-{d[year]}-{form_date}.csv"
             resp.headers["Content-Type"]="text/csv"
             return resp
         except Exception as e:
