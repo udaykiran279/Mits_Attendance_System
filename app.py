@@ -82,7 +82,7 @@ def stdsignup():
     year=request.form['year']
     dept=request.form['dept'].upper()
     file=request.files['face_pic']
-    data={'Roll':roll,'Year':year,'Department':dept,'faculty_id':'','Room':'','course':'','status':''}
+    data={'Roll':roll,'Year':year,'Department':dept,'faculty_id':'','Room':'','course':'','status':'Absent'}
     d={"1":"First","2":"Second","3":"Third","4":"Fourth"}
     #check=database.child(d[year]).child(dept).child(roll).get()
     #if check is not None:
