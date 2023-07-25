@@ -2,32 +2,25 @@ from flask import Flask,render_template,redirect,request,Response,make_response,
 import cv2
 import os
 import json
+import urllib.request
 from datetime import datetime
 import requests
 import numpy as np
 from PIL import Image
 from pathlib import Path
-import urllib.request
-#from facetools import FaceDetection, LivenessDetection
 import pandas as pd
 from io import StringIO
-from sklearn.neighbors import KNeighborsClassifier
 import pyrebase
-#import firebase_admin
-#from firebase_admin import credentials, storage
-import pickle
 import base64
 import time
 import io
+from sklearn.neighbors import KNeighborsClassifier
 
 
 app=Flask(__name__)
 
-
 app.secret_key='udaykiranchowdary2002'
 df=pd.read_csv("class-merge.csv")
-#model=pickle.load(open("model.pkl","rb"))
-
 
 config={
     "apiKey": "AIzaSyAYey8JOEz4XrP_kZTFV0KSwIU9QK8FmCo",
@@ -55,17 +48,6 @@ firebaseConfig1={
 firebase1=pyrebase.initialize_app(firebaseConfig1)
 auth1=firebase1.auth()
 
-
-root = Path(os.path.abspath(__file__)).parent.absolute()
-data_folder = root / "data"
-
-#resNet_checkpoint_path = data_folder / "checkpoints" / "InceptionResnetV1_vggface2.onnx"
-#facebank_path = data_folder / "reynolds.csv"
-
-#deepPix_checkpoint_path = data_folder / "checkpoints" / "OULU_Protocol_2_model_0_0.onnx"
-
-#faceDetector = FaceDetection(max_num_faces=1)
-#livenessDetector = LivenessDetection(checkpoint_path=deepPix_checkpoint_path.as_posix())
 
 @app.route("/")
 
@@ -138,21 +120,37 @@ def capture():
     roll_path=storage.child(f"{roll_no}.jpg").get_url(None)
     response = requests.get(roll_path)
     image_bytes2= response.content
+    
+    url = "http://bunny2003.pythonanywhere.com/liveness"
+
+    # Request payload (assuming you are sending the base64 string as JSON)
     payload = {
-            'image1': image_bytes,
-            'image2': image_bytes2
+        "image":image_bytes
     }
 
-    # Make a POST request to the DeepFace API on PythonAnywhere
-    deepface_api_url = 'https://udaykirannaidu.pythonanywhere.com/compare'  # Replace with your DeepFace API endpoint URL on PythonAnywhere
-    response = requests.post(deepface_api_url, files=payload)
-    result = response.json()
-    if result=='True':
-        att_data=database.child(d[year]).child(dept).child(roll_no).get()
-        dv=dict(att_data.val())
-        return render_template('studentform.html',roll=roll_no,year=year,dep=dept,rmn=dv['Room'],course=dv['course'])
+    # Make the POST request to the API
+    response = requests.post(url, files=payload)
+    result=response.json()
+    if result=="Real":
+        payload = {
+            'image1': image_bytes,
+            'image2': image_bytes2
+        }
+    
+        # Make a POST request to the DeepFace API on PythonAnywhere
+        deepface_api_url = 'https://udaykirannaidu.pythonanywhere.com/compare'  # Replace with your DeepFace API endpoint URL on PythonAnywhere
+        response = requests.post(deepface_api_url, files=payload)
+        result = response.json()
+        if result=='True':
+            att_data=database.child(d[year]).child(dept).child(roll_no).get()
+            dv=dict(att_data.val())
+            return render_template('studentform.html',roll=roll_no,year=year,dep=dept,rmn=dv['Room'],course=dv['course'])
+        else:
+            return render_template("index.html",msg=f"Identity did not match with {roll_no} 😄")
+    elif result=="Fake":
+        return render_template("index.html",msg="Don't Cheat Us 😄")
     else:
-        return render_template("index.html",msg=f"Identity did not match with {roll_no} 😄")
+        return render_template("index.html",msg="Retry capturing your face Clearly.")
 
 
 @app.route("/facsignup",methods=["POST","GET"])
@@ -206,7 +204,7 @@ def predict():
     d={"1":"First","2":"Second","3":"Third","4":"Fourth"}
     x=df.drop("place",axis=1)
     y=df.place
-    knn = KNeighborsClassifier(n_neighbors=19,metric='manhattan')
+    knn = KNeighborsClassifier(n_neighbors=19,metric='euclidean')
     knn.fit(x,y)
     mark=knn.predict([[lat,lon,room_no],])[0]
     if mark==1:
