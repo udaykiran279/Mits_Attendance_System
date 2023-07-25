@@ -132,14 +132,14 @@ def capture():
     response = requests.post(url, files=payload)
     result=response.json()
     if result=="Real":
-        payload = {
+        payload1= {
             'image1': image_bytes,
             'image2': image_bytes2
         }
     
         # Make a POST request to the DeepFace API on PythonAnywhere
         deepface_api_url = 'https://udaykirannaidu.pythonanywhere.com/compare'  # Replace with your DeepFace API endpoint URL on PythonAnywhere
-        response = requests.post(deepface_api_url, files=payload)
+        response = requests.post(deepface_api_url, files=payload1)
         result = response.json()
         if result=='True':
             att_data=database.child(d[year]).child(dept).child(roll_no).get()
@@ -252,7 +252,7 @@ def download():
             dd_data=dict(dd.val())
             if dd_data['faculty_id']==fac_id:
                 data_list.append(dd_data)
-                database.child(year).child(dept).child(i).update({'faculty_id':"","Room":"","course":"","status":""})
+                database.child(year).child(dept).child(i).update({'faculty_id':"","Room":"","course":"","status":"Absent"})
         df1=pd.DataFrame(data_list)
         if df1.shape[0]==0:
             return render_template("facultyform.html",msg="No Presenters Yet or No Class Room Scheduled.")
