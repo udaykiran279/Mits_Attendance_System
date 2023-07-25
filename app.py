@@ -236,10 +236,10 @@ def download():
             with urllib.request.urlopen(url) as response:
                 data = response.read().decode("utf-8")
             # Convert the fetched data to a DataFrame using pandas
-            df = pd.read_csv(StringIO(data))
+            df1 = pd.read_csv(StringIO(data))
             #print(df.shape)
             resp=make_response(df1.to_csv(index=False))
-            resp.headers["Content-Disposition"]=f"attachement;filename={dept}-{d[year]}-{form_date}.csv"
+            resp.headers["Content-Disposition"]=f"attachement;filename={dept}-{d[year]}-{formatted_date}.csv"
             resp.headers["Content-Type"]="text/csv"
             return resp
         except Exception as e:
