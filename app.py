@@ -229,7 +229,7 @@ def download():
     d={'First':'I','Second':'II','Third':'III','Fourth':'IV'}
     if sheet=="Download previous Classes":
         form_date=date.strftime("%d-%m-%Y")
-        url=storage.child("vamsi").child(f"{{dept}-{d[year]}-{form_date}.csv}").get_url(None)
+        url=storage.child("vamsi").child(f"{dept}-{d[year]}-{form_date}.csv").get_url(None)
         try:
             # Fetch the dataset from the URL using urllib
             with urllib.request.urlopen(url) as response:
