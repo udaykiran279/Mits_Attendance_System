@@ -128,7 +128,7 @@ def capture():
     # Convert the color space to cv2.COLOR_BGR2RGB
     img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
     image_bytes3 = io.BytesIO()
-    img_bgr.save(image_bytes3, format="JPEG")
+    img_rgb.save(image_bytes3, format="JPEG")
     image_bytes3 = image_bytes3.getvalue()
         
     url = "http://bunny2003.pythonanywhere.com/liveness"
