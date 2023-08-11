@@ -113,7 +113,7 @@ def capture():
     encoded_data = captured_image.split(',')[1]
     nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
     img1= cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    image1= Image.fromarray(img1)
+    image1= Image.fromarray(cv2.cvtColor(img1, cv2.COLOR_BGR2RGB))
     image_bytes = io.BytesIO()
     image1.save(image_bytes, format="JPEG")
     image_bytes = image_bytes.getvalue()
@@ -121,7 +121,7 @@ def capture():
     response = requests.get(roll_path)
     image_bytes2= response.content
     
-    '''url = "http://bunny2003.pythonanywhere.com/liveness"
+    url = "http://bunny2003.pythonanywhere.com/liveness"
 
     # Request payload (assuming you are sending the base64 string as JSON)
     payload = {
@@ -131,26 +131,26 @@ def capture():
     # Make the POST request to the API
     response = requests.post(url, files=payload)
     result=response.json()
-    if result=="Real":'''
-    payload1= {
-        'image1': image_bytes,
-        'image2': image_bytes2
-    }
-
-    # Make a POST request to the DeepFace API on PythonAnywhere
-    deepface_api_url = 'https://rajubhai.pythonanywhere.com/compare'  # Replace with your DeepFace API endpoint URL on PythonAnywhere
-    response = requests.post(deepface_api_url, files=payload1)
-    result = response.json()
-    if result=='True':
-        att_data=database.child(d[year]).child(dept).child(roll_no).get()
-        dv=dict(att_data.val())
-        return render_template('studentform.html',roll=roll_no,year=year,dep=dept,rmn=dv['Room'],course=dv['course'])
-    else:
-        return render_template("index.html",msg=f"Identity did not match with {roll_no} 😄")
-    '''elif result=="Fake":
+    if result=="Real":
+        payload1= {
+            'image1': image_bytes,
+            'image2': image_bytes2
+        }
+    
+        # Make a POST request to the DeepFace API on PythonAnywhere
+        deepface_api_url = 'https://udaynaidu18.pythonanywhere.com/compare'  # Replace with your DeepFace API endpoint URL on PythonAnywhere
+        response = requests.post(deepface_api_url, files=payload1)
+        result = response.json()
+        if result=='True':
+            att_data=database.child(d[year]).child(dept).child(roll_no).get()
+            dv=dict(att_data.val())
+            return render_template('studentform.html',roll=roll_no,year=year,dep=dept,rmn=dv['Room'],course=dv['course'])
+        else:
+            return render_template("index.html",msg=f"Identity did not match with {roll_no} 😄")
+    elif result=="Fake":
         return render_template("index.html",msg="Don't Cheat Us 😄")
     else:
-        return render_template("index.html",msg="Retry capturing your face Clearly.")'''
+        return render_template("index.html",msg="Retry capturing your face Clearly.")
 
 
 @app.route("/facsignup",methods=["POST","GET"])
