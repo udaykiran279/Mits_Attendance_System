@@ -120,7 +120,17 @@ def capture():
     roll_path=storage.child(f"{roll_no}.jpg").get_url(None)
     response = requests.get(roll_path)
     image_bytes2= response.content
+    image_array = np.frombuffer(image_bytes2, dtype=np.uint8)
+
+    # Decode the NumPy array into an image
+    img_bgr = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
     
+    # Convert the color space to cv2.COLOR_BGR2RGB
+    img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
+    image_bytes3 = io.BytesIO()
+    img_bgr.save(image_bytes3, format="JPEG")
+    image_bytes3 = image_bytes3.getvalue()
+        
     url = "http://bunny2003.pythonanywhere.com/liveness"
 
     # Request payload (assuming you are sending the base64 string as JSON)
@@ -134,7 +144,7 @@ def capture():
     if result=="Real":
         payload1= {
             'image1': image_bytes,
-            'image2': image_bytes2
+            'image2': image_bytes3
         }
     
         # Make a POST request to the DeepFace API on PythonAnywhere
