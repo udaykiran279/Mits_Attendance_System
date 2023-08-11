@@ -126,7 +126,7 @@ def capture():
     img_bgr = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
     
     # Convert the color space to cv2.COLOR_BGR2RGB
-    img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
+    img_rgb = Image.fromarray(cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB))
     image_bytes3 = io.BytesIO()
     img_rgb.save(image_bytes3, format="JPEG")
     image_bytes3 = image_bytes3.getvalue()
