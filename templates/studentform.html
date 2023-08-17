@@ -118,55 +118,55 @@
 </div>
   <script>
     var x=document.getElementById('demo')
-    let previousLocation = null;
-    let locationChangeCount = 0;
-    const maxLocationChanges = 2; // Number of locations to track
+    // let previousLocation = null;
+    // let locationChangeCount = 0;
+    // const maxLocationChanges = 2; // Number of locations to track
     
-    const currentLocationSpan = document.getElementById('currentLocation');
-    const changeCountSpan = document.getElementById('changeCount');
-    let watchId = null; // Store the watch ID
+    // const currentLocationSpan = document.getElementById('currentLocation');
+    // const changeCountSpan = document.getElementById('changeCount');
+    // let watchId = null; // Store the watch ID
     
-    function updateLocation(position) {
-      const currentLocation = `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`;
+    // function updateLocation(position) {
+    //   const currentLocation = `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`;
       
-      // Display current location
-      currentLocationSpan.textContent = currentLocation;
+    //   // Display current location
+    //   currentLocationSpan.textContent = currentLocation;
       
-      // Check if the location is different from the previous one
-      if (previousLocation !== currentLocation) {
-        locationChangeCount++;
-        changeCountSpan.textContent = locationChangeCount;
-      }
+    //   // Check if the location is different from the previous one
+    //   if (previousLocation !== currentLocation) {
+    //     locationChangeCount++;
+    //     changeCountSpan.textContent = locationChangeCount;
+    //   }
       
-      previousLocation = currentLocation;
+    //   previousLocation = currentLocation;
       
-      // After collecting the required number of different locations, send data to the backend
-      if (locationChangeCount === maxLocationChanges) {
-          document.getElementById('Latitude').value = position.coords.latitude;
-          document.getElementById('Longitude').value = position.coords.longitude;
-          x.innerHTML ="Location Accesed.";
-        stopLocationTracking();
-      }
-    }
+    //   // After collecting the required number of different locations, send data to the backend
+    //   if (locationChangeCount === maxLocationChanges) {
+    //       document.getElementById('Latitude').value = position.coords.latitude;
+    //       document.getElementById('Longitude').value = position.coords.longitude;
+    //       x.innerHTML ="Location Accesed.";
+    //     stopLocationTracking();
+    //   }
+    // }
     
-    function sendDataToBackend(locations) {
-      // Prepare data for the POST request
-      const data = {
-        locations: locations
-      };
-    }
-    function handleLocationError(error) {
-      console.error('Error getting location:', error.message);
-    }
+    // function sendDataToBackend(locations) {
+    //   // Prepare data for the POST request
+    //   const data = {
+    //     locations: locations
+    //   };
+    // }
+    // function handleLocationError(error) {
+    //   console.error('Error getting location:', error.message);
+    // }
     
-    // Watch for changes in user's position
-    const watchOptions = {
-    enableHighAccuracy: true,
-    maximumAge: 0, // Avoid using cached location data
-    timeout: 10
-    };
+    // // Watch for changes in user's position
+    // const watchOptions = {
+    // enableHighAccuracy: true,
+    // maximumAge: 0, // Avoid using cached location data
+    // timeout: 10
+    // };
     
-    watchId = navigator.geolocation.watchPosition(updateLocation, handleLocationError, watchOptions);
+    // watchId = navigator.geolocation.watchPosition(updateLocation, handleLocationError, watchOptions);
     
     function stopLocationTracking() {
       // Stop tracking the user's position
@@ -175,18 +175,18 @@
         watchId = null;
       }
     }
-    // function getLocation() {
-    //     if (navigator.geolocation) {
-    //         navigator.geolocation.watchPosition(showPosition);
-    //     } else {
-    //         x.innerHTML = "Geolocation is not supported by this browser.";
-    //     }
-    // }
-    // function showPosition(position) {
-    //       document.getElementById('Latitude').value = position.coords.latitude;
-    //       document.getElementById('Longitude').value = position.coords.longitude;
-    //       x.innerHTML ="Location Accesed.";
-    //   }
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    function showPosition(position) {
+          document.getElementById('Latitude').value = position.coords.latitude;
+          document.getElementById('Longitude').value = position.coords.longitude;
+          x.innerHTML ="Location Accesed.";
+      }
       
   </script>
   
