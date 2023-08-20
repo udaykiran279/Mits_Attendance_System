@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>faculty</title>
+    <link rel="stylesheet" href="/static/drop.css">
+    <link rel="stylesheet" href="/static/login.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const handleMenu = () => {
+          const sidemenu = document.getElementById('sidemenu');
+          sidemenu.classList.toggle('active');
+        };
+        
+        
+        const menuDiv = document.querySelector(".navbar > div");
+        menuDiv.addEventListener("click", handleMenu);
+    
+        const handlesideLink1 = () => {
+          const sidemenu = document.getElementById('sublinkMain1');
+          sidemenu.classList.toggle('active');
+        };
+        const arrowLink1 = document.getElementById("arrow1"); 
+        arrowLink1.addEventListener("click", handlesideLink1);
+    
+        const handlesideLink2 = () => {
+          const sidemenu2 = document.getElementById('sublinkMain2');
+          sidemenu2.classList.toggle('active');
+        };
+        const arrowLink2 = document.getElementById("arrow2"); 
+        arrowLink2.addEventListener("click", handlesideLink2);
+      });
+    </script>
+  </head>
+  <body>
+    <nav>
+      <div class="navbar" id="navbar">
+        <div onclick="handleMenu()">
+          <i class='bx bx-menu' ></i>
+        </div>
+        <div class="logo"><a href="home.html">MITS ATTENDANCE</a></div>
+        <div class="nav-links">
+          <div class="sidebar-logo">
+            <span class="logo-name">MITS ATTENDANCE</span>
+            <i class='bx bx-x'></i>
+          </div>
+          <ul class="links">
+            <li><a href="home.html">HOME</a></li>
+            <li>
+              <a href="#">FACULTY</a>
+              <i class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
+              <ul class="htmlCss-sub-menu sub-menu">
+                <li><a href="Facultyin.html">SIGN IN</a></li>
+                <li><a href="facultyup.html">SIGN UP</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">STUDENT</a>
+              <i class='bx bxs-chevron-down js-arrow arrow '></i>
+              <ul class="js-sub-menu sub-menu">
+                <li><a href="stdsignin.html">SIGN IN</a></li>
+                <li><a href="stdsignup.html">SIGN UP</a></li>
+              </ul>
+            </li>
+            <li><a href="#">ADMIN</a></li>
+            <li><a href="#">CONTACT US</a></li>
+          </ul>
+        </div>
+    </nav>
+    <div class="sidemenu" id="sidemenu">
+      <ul class="links">
+            <li><a href="home.html">HOME</a></li>
+            <li>
+              <a href="#">FACULTY</a>
+              <i onclick="handlesideLink1()" id="arrow1" class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
+              <ul class="sublinkMain1" id="sublinkMain1">
+                <li><a href="Facultyin.html">SIGN IN</a></li>
+                <li><a href="facultyup.html">SIGN UP</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">STUDENT</a>
+              <i onclick="handlesideLink2()" id="arrow2"  class='bx bxs-chevron-down js-arrow arrow '></i>
+              <ul  class="sublinkMain2" id="sublinkMain2">
+                <li><a href="stdsignin.html">SIGN IN</a></li>
+                <li><a href="stdsignup.html">SIGN UP</a></li>
+              </ul>
+            </li>
+            <li><a href="#">ADMIN</a></li>
+            <li><a href="#">CONTACT US</a></li>
+          </ul>
+    </div>
+    <div class="wrapper" style="margin-top: 100px">
+      <form action="{{ url_for('facsignin')}}" method="POST">
+        <h2>Faculty Sign In</h2>
+        <link rel="stylesheet" href="login.css" />
+        <center>
+          <marquee><b>{{msg}}</b></marquee>
+        </center>
+        <div class="input-field">
+          <input type="text" name="email" required />
+          <label>👤 User name or Email</label>
+        </div>
+        <div class="input-field">
+          <input type="password" name="pass" required />
+          <label>🔒 password</label>
+        </div>
+        <div class="forget">
+          <label for="remember">
+            <input type="checkbox" id="remember" />
+            <p>Remember me</p>
+          </label>
+          <a href="#">Forgot password?</a>
+        </div>
+        <button type="submit">Log In</button>
+        <div class="register">
+          <p>Don't have an account? <a href="facultyup.html">Register</a></p>
+        </div>
+      </form>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

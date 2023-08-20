@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>student</title>
+    <link rel="stylesheet" href="/static/drop.css">
+    <link rel="stylesheet" href="/static/login.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const handleMenu = () => {
+          const sidemenu = document.getElementById('sidemenu');
+          sidemenu.classList.toggle('active');
+        };
+        
+        
+        const menuDiv = document.querySelector(".navbar > div");
+        menuDiv.addEventListener("click", handleMenu);
+    
+        const handlesideLink1 = () => {
+          const sidemenu = document.getElementById('sublinkMain1');
+          sidemenu.classList.toggle('active');
+        };
+        const arrowLink1 = document.getElementById("arrow1"); 
+        arrowLink1.addEventListener("click", handlesideLink1);
+    
+        const handlesideLink2 = () => {
+          const sidemenu2 = document.getElementById('sublinkMain2');
+          sidemenu2.classList.toggle('active');
+        };
+        const arrowLink2 = document.getElementById("arrow2"); 
+        arrowLink2.addEventListener("click", handlesideLink2);
+      });
+    </script>
+  </head>
+  <body>
+    <nav>
+      <div class="navbar" id="navbar">
+        <div onclick="handleMenu()">
+          <i class='bx bx-menu' ></i>
+        </div>
+        <div class="logo"><a href="home.html">MITS ATTENDANCE</a></div>
+        <div class="nav-links">
+          <div class="sidebar-logo">
+            <span class="logo-name">MITS ATTENDANCE</span>
+            <i class='bx bx-x'></i>
+          </div>
+          <ul class="links">
+            <li><a href="home.html">HOME</a></li>
+            <li>
+              <a href="#">FACULTY</a>
+              <i class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
+              <ul class="htmlCss-sub-menu sub-menu">
+                <li><a href="Facultyin.html">SIGN IN</a></li>
+                <li><a href="facultyup.html">SIGN UP</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">STUDENT</a>
+              <i class='bx bxs-chevron-down js-arrow arrow '></i>
+              <ul class="js-sub-menu sub-menu">
+                <li><a href="stdsignin.html">SIGN IN</a></li>
+                <li><a href="stdsignup.html">SIGN UP</a></li>
+              </ul>
+            </li>
+            <li><a href="#">ADMIN</a></li>
+            <li><a href="#">CONTACT US</a></li>
+          </ul>
+        </div>
+    </nav>
+    <div class="sidemenu" id="sidemenu">
+      <ul class="links">
+            <li><a href="home.html">HOME</a></li>
+            <li>
+              <a href="#">FACULTY</a>
+              <i onclick="handlesideLink1()" id="arrow1" class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
+              <ul class="sublinkMain1" id="sublinkMain1">
+                <li><a href="Facultyin.html">SIGN IN</a></li>
+                <li><a href="facultyup.html">SIGN UP</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">STUDENT</a>
+              <i onclick="handlesideLink2()" id="arrow2"  class='bx bxs-chevron-down js-arrow arrow '></i>
+              <ul  class="sublinkMain2" id="sublinkMain2">
+                <li><a href="stdsignin.html">SIGN IN</a></li>
+                <li><a href="stdsignup.html">SIGN UP</a></li>
+              </ul>
+            </li>
+            <li><a href="#">ADMIN</a></li>
+            <li><a href="#">CONTACT US</a></li>
+          </ul>
+    </div>
+    <div class="wrapper" style="margin-top: 100px">
+      <form action="{{ url_for('stdsignup')}}" method="POST" enctype="multipart/form-data">
+        <h2>Student Sign Up</h2>
+        <p>
+          <center>
+            <marquee><b>{{msg}}</b></marquee>
+          </center>
+        </p>
+        <link rel="stylesheet" href="login.css" />
+        <div class="input-field">
+          <input type="text" id="rollno" name="rollno" required />
+          <label>👤 Roll Number</label>
+        </div>
+        <div class="input-field">
+          <select
+            id="rmn"
+            name="year"
+            required
+            style="border: none; outline: none"
+          >
+            <option value=""><b>Select Year</b></option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+          <!-- <label>Select Year</label> -->
+        </div>
+        <div class="input-field">
+          <select
+            id="rmn"
+            name="dept"
+            required
+            style="border: none; outline: none"
+          >
+            <option value="Select Your Department"><b>Select Your Department</b></option>
+            <option value="AI">AI</option>
+            <option value="CIVIL">CIVIL</option>
+            <option value="CSE">CSE</option>
+            <option value="DS">DS</option>
+            <option value="ECE">ECE</option>
+            <option value="EEE">EEE</option>
+            <option value="MBA">MBA</option>
+            <option value="MCA">MCA</option>
+            <option value="MECH">MECH</option>
+          </select>
+          <!-- <label>Select Year</label> -->
+        </div>
+        <label style="display: flex; justify-content: flex-start; margin-bottom: 5px;"><b>Profile Photo</b></label>
+        <div style="display: flex; justify-content: flex-start;">
+          <input type="file" id="face_pic" name="face_pic" placeholder="Upload your Passport size pic." required>
+        </div>
+        <br>
+        <button type="submit">Create</button>
+        <!-- <div class="register">
+          <p>Don't have an account? <a href="stdsignup.html">Register</a></p>
+        </div> -->
+      </form>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

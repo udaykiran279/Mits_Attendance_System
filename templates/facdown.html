@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>faculty</title>
+  <link rel="stylesheet" href="/static/drop.css">
+  <link rel="stylesheet" href="/static/login.css">
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const handleMenu = () => {
+        const sidemenu = document.getElementById('sidemenu');
+        sidemenu.classList.toggle('active');
+      };
+      
+      
+      const menuDiv = document.querySelector(".navbar > div");
+      menuDiv.addEventListener("click", handleMenu);
+  
+      const handlesideLink1 = () => {
+        const sidemenu = document.getElementById('sublinkMain1');
+        sidemenu.classList.toggle('active');
+      };
+      const arrowLink1 = document.getElementById("arrow1"); 
+      arrowLink1.addEventListener("click", handlesideLink1);
+  
+      const handlesideLink2 = () => {
+        const sidemenu2 = document.getElementById('sublinkMain2');
+        sidemenu2.classList.toggle('active');
+      };
+      const arrowLink2 = document.getElementById("arrow2"); 
+      arrowLink2.addEventListener("click", handlesideLink2);
+    });
+  </script>
+</head>
+<body>
+    <nav>
+    <div class="navbar" id="navbar">
+      <div onclick=handleMenu>
+        <i class='bx bx-menu' ></i>
+      </div>
+      <div class="logo"><a href="home.html">MITS ATTENDANCE</a></div>
+      <div class="nav-links">
+        <div class="sidebar-logo">
+          <span class="logo-name">MITS ATTENDANCE</span>
+          <i class='bx bx-x'></i>
+        </div>
+        <ul class="links">
+          <li><a href="home.html">HOME</a></li>
+          <li>
+            <a href="#">FACULTY</a>
+            <i class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
+            <ul class="htmlCss-sub-menu sub-menu">
+              <li><a href="Facultyin.html">SIGN IN</a></li>
+              <li><a href="facultyup.html">SIGN UP</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">STUDENT</a>
+            <i class='bx bxs-chevron-down js-arrow arrow '></i>
+            <ul class="js-sub-menu sub-menu">
+              <li><a href="stdsignin.html">SIGN IN</a></li>
+              <li><a href="stdsignup.html">SIGN UP</a></li>
+            </ul>
+          </li>
+          <li><a href="#">ADMIN</a></li>
+          <li><a href="#">CONTACT US</a></li>
+        </ul>
+      </div>
+  </nav>
+  <div class="wrapper" style="margin-top: 100px">
+    <form action="{{ url_for('download')}}" method="POST">
+        <h2>View Attendance</h2>
+        <link rel="stylesheet" href="login.css">
+        <center>
+            <b>{{ msg }}</b>
+          </center>
+        <div class="input-field">
+        <input type="text" name="facid" required>
+        <label>Faculty ID 👤</label>
+        </div>
+        <div class="input-field">
+          <select
+            id="rmn"
+            name="year"
+            required
+            style="border: none; outline: none"
+          >
+            <option value=""><b>Select Year</b></option>
+            <option value="First" >First</option>
+            <option value="Second">Second</option>
+            <option value="Third">Third</option>
+            <option value="Fourth">Fourth</option>
+          </select>
+        </div>
+        <div class="input-field">
+          <select
+            id="rmn"
+            name="dept"
+            required
+            style="border: none; outline: none"
+          >
+            <option value="">Select Department</option>
+            <option value="AI">AI</option>
+            <option value="CIVIL">CIVIL</option>
+            <option value="CSE">CSE</option>
+            <option value="DS">DS</option>
+            <option value="ECE">ECE</option>
+            <option value="EEE">EEE</option>
+            <option value="MBA">MBA</option>
+            <option value="MCA">MCA</option>
+            <option value="MECH">MECH</option>
+          </select>
+        </div>
+        <div class="input-field">
+          <select
+            id="rmn"
+            name="sheet"
+            required
+            style="border: none; outline: none"
+          >
+        <option value="">Select among these</option>
+        <option value="Generate Today's Class" >Generate Today's Class</option>
+        <option value="Download previous Classes">Download previous Classes</option>
+          </select>
+        </div>
+        <div class="input-field">
+            <input type="date" id="dateInput" name="selectedDate">
+        </div><br>
+        <button type="submit">Download</button>
+        <br>
+    </form>
+</div>
+  
+
+</body>
+</html>
