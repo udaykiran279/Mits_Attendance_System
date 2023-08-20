@@ -222,7 +222,7 @@ def predict():
 
 @app.route("/view_attend")
 def view_attend():
-    return render_template("fac_down.html")
+    return render_template("facdown.html")
 
 @app.route("/download",methods=["POST","GET"])
 
