@@ -94,7 +94,7 @@ def stdsignup():
     storage.child(f'{roll}.jpg').put(save_path)
     os.remove(save_path)
 
-    return render_template("student.html",msg="Uploaded Successfully.Log Back to your Account")
+    return render_template("stdsignup.html",msg="Uploaded Successfully.Log Back to your Account")
 
 
 @app.route("/capture",methods=["POST","GET"])
@@ -156,11 +156,11 @@ def capture():
             dv=dict(att_data.val())
             return render_template('studentform.html',roll=roll_no,year=year,dep=dept,rmn=dv['Room'],course=dv['course'])
         else:
-            return render_template("index.html",msg=f"Identity did not match with {roll_no} 😄")
+            return render_template("stdsignin.html",msg=f"Identity did not match with {roll_no} 😄")
     elif result=="Fake":
-        return render_template("index.html",msg="Don't Cheat Us 😄")
+        return render_template("stdsignin.html",msg="Don't Cheat Us 😄")
     else:
-        return render_template("index.html",msg="Retry capturing your face Clearly.")
+        return render_template("stdsignin.html",msg="Retry capturing your face Clearly.")
 
 
 @app.route("/facsignup",methods=["POST","GET"])
@@ -170,9 +170,9 @@ def facsignup():
     password=k[1]
     try:
         auth1.create_user_with_email_and_password(email,password)
-        return render_template("faculty.html")
+        return render_template("facultyup.html",msg="Account created Successfully.")
     except:
-        return render_template("faculty.html",msg="Email Already Exists")
+        return render_template("facultyup.html",msg="Email Already Exists")
 
 @app.route("/facsignin",methods=["POST","GET"])
 def facsignin():
@@ -182,7 +182,7 @@ def facsignin():
     try:
         auth1.sign_in_with_email_and_password(email,password)
     except:
-        return render_template("faculty.html",msg="Invalid User or Incorrect Password")
+        return render_template("facultyin.html",msg="Invalid User or Incorrect Password")
     return render_template("facultyform.html")
 
 @app.route("/create",methods=["POST","GET"])
