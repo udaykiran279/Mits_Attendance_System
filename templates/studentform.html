@@ -3,15 +3,15 @@
   <head>
     <style>
       .Input_fields{
-          display: grid;
+          display:flex;
           grid-template-columns: 10% 20%;
-          margin-bottom: 15px;
+          margin-bottom: 25px;
       }
 
-      .Input_fields lable{
+      .Input_fields label{
         color: #0808e1;
-        font-size: 18px;
-        font-weight: 500%;
+        font-size: 10px;
+        font-weight: 300%;
       }
 
       .Input_fields input{
@@ -25,15 +25,19 @@
       }
       .btn{
           border:#888888;
-          width: 120px;
-          height: 25px;
+          width: 200px;
+          height: 30px;
           margin-left: 0px;
-          background-color: rgb(192, 90, 190);
+          background-color: rgb(135, 3, 45);
           color: #fff;
-          border-radius: 9px;
-          text-align:justify;
+          border-radius: 10px;
+          text-align:center;
+          text-overflow: ellipsis;
+          padding-top: 5px;
+          padding-bottom: 10px;
           font-size: medium;
       }
+
     </style>
     <meta charset="UTF-8">
     <title>student</title>
@@ -67,105 +71,49 @@
         arrowLink2.addEventListener("click", handlesideLink2);
       });
     </script>
-    
-    
   </head>
 <body>
-  <nav>
-    <div class="navbar" id="navbar">
-      <div onclick="handleMenu()">
-        <i class='bx bx-menu' ></i>
-      </div>
-      <div class="logo"><a href="{{url_for('home')}}">MITS ATTENDANCE</a></div>
-      <div class="nav-links">
-        <div class="sidebar-logo">
-          <span class="logo-name">MITS ATTENDANCE</span>
-          <i class='bx bx-x'></i>
-        </div>
-        <ul class="links">
-          <li><a href="{{url_for('home')}}">HOME</a></li>
-          <li>
-            <a href="#">FACULTY</a>
-            <i class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
-            <ul class="htmlCss-sub-menu sub-menu">
-              <li><a href="{{url_for('fin')}}">SIGN IN</a></li>
-              <li><a href="{{url_for('fup')}}">SIGN UP</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">STUDENT</a>
-            <i class='bx bxs-chevron-down js-arrow arrow '></i>
-            <ul class="js-sub-menu sub-menu">
-              <li><a href="{{url_for('ssin')}}">SIGN IN</a></li>
-              <li><a href="{{url_for('ssup')}}">SIGN UP</a></li>
-            </ul>
-          </li>
-          <li><a href="#">ADMIN</a></li>
-          <li><a href="#">CONTACT US</a></li>
-        </ul>
-      </div>
-  </nav>
-  <div class="sidemenu" id="sidemenu">
-    <ul class="links">
-          <li><a href="{{url_for('home')}}">HOME</a></li>
-          <li>
-            <a href="#">FACULTY</a>
-            <i onclick="handlesideLink1()" id="arrow1" class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
-            <ul class="sublinkMain1" id="sublinkMain1">
-              <li><a href="{{url_for('fin')}}">SIGN IN</a></li>
-              <li><a href="{{url_for('fup')}}">SIGN UP</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">STUDENT</a>
-            <i onclick="handlesideLink2()" id="arrow2"  class='bx bxs-chevron-down js-arrow arrow '></i>
-            <ul  class="sublinkMain2" id="sublinkMain2">
-              <li><a href="{{url_for('ssin')}}">SIGN IN</a></li>
-              <li><a href="{{url_for('ssup')}}">SIGN UP</a></li>
-            </ul>
-          </li>
-          <li><a href="#">ADMIN</a></li>
-          <li><a href="#">CONTACT US</a></li>
-        </ul>
-  </div>
+  
   <div class="wrapper" style="margin-top: 100px">
-    <form action="{{url_for('predict')}}" method="POST">
-        <h2>Class Room</h2>
-        <link rel="stylesheet" href="login.css">
+    <h2>Class Room</h2>
+        <!-- <link rel="stylesheet" href="login.css"> -->
         <center>
             <marquee><b>{{msg}}</b></marquee>
-          {{ attend }}
-          </center>
-          <br>
+          <b>{{ attend }}</b>
+        </center><br>
+        <center><div><button class="btn" onclick="getLocation()" required>Allow Location</button></div></center>
+        <center><div><p id="demo"></p></div></center>
+        <br>
+    <form action="{{url_for('predict')}}" method="POST">
           <div class="user-details">
             <div class="input-box">
-              <span class="details"><b>Roll No</b></span>
+              <span class="details" style="display: flex; text-align: left;"><b>Roll No</b></span>
                 <select id="rmn" name="roll" required="1">
                     <option value="{{roll}}">{{roll}}</option>
               </select> 
             </div><br>
             <div class="input-box">
-              <span class="details"><b>Year</b></span>
+              <span class="details" style="display: flex; text-align: left;"><b>Year</b></span>
               <!-- {{year}} -->
               <select id="rmn" name="year" required="1">
                     <option value="{{year}}">{{year}}</option>
               </select> 
             </div><br>
             <div class="input-box">
-              <span class="details"><b>Department</b></span>
+              <span class="details" style="display: flex; text-align: left;"><b>Department</b></span>
               <select id="rmn" name="deptart" required="1">
                     <option value="{{dep}}">{{dep}}</option>
               </select>
             </div>
             <div class="input-box">
-              <span class="details"><b>Course</b></span>
+              <span class="details" style="display: flex; text-align: left;"><b>Course</b></span>
               <select id="rmn" name="course" required="1">
                     <option value="{{course}}">{{course}}</option>
    
               </select>
             </div>
             <div class="input-box">
-                <span class="details"><b>Room No</b></span>
+                <span class="details" style="display: flex; text-align: left;"><b>Room No</b></span>
                 <select id="rmn" name="roomno" required="1">
                     <option value="{{rmn}}">{{rmn}}</option>
                 </select>
@@ -183,23 +131,23 @@
     </form>
   </div>
 </div>
-  <script>
-    var x=document.getElementById('demo')
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(showPosition);
-        } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
-        }
-    }
-    function showPosition(position) {
-          document.getElementById('Latitude').value = position.coords.latitude;
-          document.getElementById('Longitude').value = position.coords.longitude;
-          x.innerHTML ="Location Accesed.";
+
+<script>
+  var x=document.getElementById('demo')
+  function getLocation() {
+      if (navigator.geolocation) {
+          navigator.geolocation.watchPosition(showPosition);
+      } else {
+          x.innerHTML = "Geolocation is not supported by this browser.";
       }
-      
-  </script>
-  
+  }
+  function showPosition(position) {
+        document.getElementById('Latitude').value = position.coords.latitude;
+        document.getElementById('Longitude').value = position.coords.longitude;
+        x.innerHTML ="Location Accesed.";
+    }
+    
+</script>
   
 
 </body>
