@@ -53,27 +53,20 @@ auth1=firebase1.auth()
 
 def homepage():
     return render_template("home.html")
-
-@app.route("/home")
-def home():
-    return render_template("home.html")
-@app.route("/std")
-def std():
-    return render_template("student.html")
-@app.route("/ssup")
-def ssup():
+    
+@app.route("/stdsignup")
+def stdsignup():
     return render_template("stdsignup.html")
-@app.route("/fac_form")
-def fac_form():
-    return render_template("facultyform.html")
+@app.route("/stdsignin")
+def stdsignin():
+    return render_template("stdsignin.html")
+@app.route("/facultyup")
+def facultyup():
+    return render_template("facultyup.html")
+@app.route("/facultyin")
+def facultyin():
+    return render_template("facultyin.html")
 
-@app.route('/index')
-def index():
-    return render_template('index.html')
-
-@app.route("/faculty")
-def faculty():
-    return render_template("faculty.html")
 
 #student routes
 @app.route("/stdsignup",methods=["POST"])
