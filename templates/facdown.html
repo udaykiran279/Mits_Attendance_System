@@ -37,31 +37,31 @@
 <body>
     <nav>
     <div class="navbar" id="navbar">
-      <div onclick=handleMenu>
+      <div onclick="handleMenu()">
         <i class='bx bx-menu' ></i>
       </div>
-      <div class="logo"><a href="home.html">MITS ATTENDANCE</a></div>
+      <div class="logo"><a href="{{url_for('home')}}">MITS ATTENDANCE</a></div>
       <div class="nav-links">
         <div class="sidebar-logo">
           <span class="logo-name">MITS ATTENDANCE</span>
           <i class='bx bx-x'></i>
         </div>
         <ul class="links">
-          <li><a href="home.html">HOME</a></li>
+          <li><a href="{{url_for('home')}}">HOME</a></li>
           <li>
             <a href="#">FACULTY</a>
             <i class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
             <ul class="htmlCss-sub-menu sub-menu">
-              <li><a href="Facultyin.html">SIGN IN</a></li>
-              <li><a href="facultyup.html">SIGN UP</a></li>
+              <li><a href="{{url_for('fin')}}">SIGN IN</a></li>
+              <li><a href="{{url_for('fup')}}">SIGN UP</a></li>
             </ul>
           </li>
           <li>
             <a href="#">STUDENT</a>
             <i class='bx bxs-chevron-down js-arrow arrow '></i>
             <ul class="js-sub-menu sub-menu">
-              <li><a href="stdsignin.html">SIGN IN</a></li>
-              <li><a href="stdsignup.html">SIGN UP</a></li>
+              <li><a href="{{url_for('ssin')}}">SIGN IN</a></li>
+              <li><a href="{{url_for('ssup')}}">SIGN UP</a></li>
             </ul>
           </li>
           <li><a href="#">ADMIN</a></li>
@@ -69,6 +69,29 @@
         </ul>
       </div>
   </nav>
+  <div class="sidemenu" id="sidemenu">
+    <ul class="links">
+          <li><a href="{{url_for('home')}}">HOME</a></li>
+          <li>
+            <a href="#">FACULTY</a>
+            <i onclick="handlesideLink1()" id="arrow1" class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
+            <ul class="sublinkMain1" id="sublinkMain1">
+              <li><a href="{{url_for('fin')}}">SIGN IN</a></li>
+              <li><a href="{{url_for('fup')}}">SIGN UP</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">STUDENT</a>
+            <i onclick="handlesideLink2()" id="arrow2"  class='bx bxs-chevron-down js-arrow arrow '></i>
+            <ul  class="sublinkMain2" id="sublinkMain2">
+              <li><a href="{{url_for('ssin')}}">SIGN IN</a></li>
+              <li><a href="{{url_for('ssup')}}">SIGN UP</a></li>
+            </ul>
+          </li>
+          <li><a href="#">ADMIN</a></li>
+          <li><a href="#">CONTACT US</a></li>
+        </ul>
+  </div>
   <div class="wrapper" style="margin-top: 100px">
     <form action="{{ url_for('download')}}" method="POST">
         <h2>View Attendance</h2>
