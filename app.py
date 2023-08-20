@@ -50,8 +50,11 @@ auth1=firebase1.auth()
 
 
 @app.route("/")
-
 def homepage():
+    return render_template("home.html")
+
+@app.route("/home")
+def home():
     return render_template("home.html")
     
 @app.route("/ssup")
