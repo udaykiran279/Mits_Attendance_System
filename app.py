@@ -54,17 +54,17 @@ auth1=firebase1.auth()
 def homepage():
     return render_template("home.html")
     
-@app.route("/stdsignup")
-def stdsignup():
+@app.route("/ssup")
+def ssup():
     return render_template("stdsignup.html")
-@app.route("/stdsignin")
-def stdsignin():
+@app.route("/ssin")
+def ssin():
     return render_template("stdsignin.html")
-@app.route("/facultyup")
-def facultyup():
+@app.route("/fup")
+def fup():
     return render_template("facultyup.html")
-@app.route("/facultyin")
-def facultyin():
+@app.route("/fin")
+def fin():
     return render_template("facultyin.html")
 
 
