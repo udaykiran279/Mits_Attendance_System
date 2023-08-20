@@ -42,14 +42,14 @@
       <div onclick="handleMenu()">
         <i class='bx bx-menu' ></i>
       </div>
-      <div class="logo"><a href="{{url_for('/'}}">MITS ATTENDANCE</a></div>
+      <div class="logo"><a href="{{url_for('/home'}}">MITS ATTENDANCE</a></div>
       <div class="nav-links">
         <div class="sidebar-logo">
           <span class="logo-name">MITS ATTENDANCE</span>
           <i class='bx bx-x'></i>
         </div>
         <ul class="links">
-          <li><a href="{{url_for('/')}}">HOME</a></li>
+          <li><a href="{{url_for('/home')}}">HOME</a></li>
           <li>
             <a href="#">FACULTY</a>
             <i class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
@@ -73,7 +73,7 @@
   </nav>
   <div class="sidemenu" id="sidemenu">
     <ul class="links">
-          <li><a href="home.html">HOME</a></li>
+          <li><a href="{{url_for('/home')}}">HOME</a></li>
           <li>
             <a href="#">FACULTY</a>
             <i onclick="handlesideLink1()" id="arrow1" class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
