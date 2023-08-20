@@ -1,6 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <style>
+      .Input_fields{
+          display: grid;
+          grid-template-columns: 10% 20%;
+          margin-bottom: 15px;
+      }
+
+      .Input_fields lable{
+        color: #0808e1;
+        font-size: 18px;
+        font-weight: 500%;
+      }
+
+      .Input_fields input{
+          color: #e10808;
+          border: none;
+          border-bottom: 1px solid #888888;
+      }
+
+      .Input_fields input:focus{
+          outline:black;
+      }
+      .btn{
+          border:#888888;
+          width: 120px;
+          height: 25px;
+          margin-left: 0px;
+          background-color: rgb(192, 90, 190);
+          color: #fff;
+          border-radius: 9px;
+          text-align:justify;
+          font-size: medium;
+      }
+    </style>
     <meta charset="UTF-8">
     <title>student</title>
     <link rel="stylesheet" href="/static/drop.css">
@@ -33,6 +67,8 @@
         arrowLink2.addEventListener("click", handlesideLink2);
       });
     </script>
+    
+    
   </head>
 <body>
   <nav>
@@ -147,6 +183,22 @@
     </form>
   </div>
 </div>
+  <script>
+    var x=document.getElementById('demo')
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    function showPosition(position) {
+          document.getElementById('Latitude').value = position.coords.latitude;
+          document.getElementById('Longitude').value = position.coords.longitude;
+          x.innerHTML ="Location Accesed.";
+      }
+      
+  </script>
   
   
 
