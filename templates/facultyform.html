@@ -36,6 +36,7 @@
 </head>
 <body>
   <nav>
+    <nav>
     <div class="navbar" id="navbar">
       <div onclick="handleMenu()">
         <i class='bx bx-menu' ></i>
@@ -53,7 +54,7 @@
             <i class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
             <ul class="htmlCss-sub-menu sub-menu">
               <li><a href="{{url_for('fin')}}">SIGN IN</a></li>
-              <li><a href="{{url_for('fup')}}">SIGN UP</a></li>
+<!--               <li><a href="{{url_for('fup')}}">SIGN UP</a></li> -->
             </ul>
           </li>
           <li>
@@ -64,7 +65,7 @@
               <li><a href="{{url_for('ssup')}}">SIGN UP</a></li>
             </ul>
           </li>
-          <li><a href="#">ADMIN</a></li>
+          <li><a href="{{url_for('admin}}">ADMIN</a></li>
           <li><a href="#">CONTACT US</a></li>
         </ul>
       </div>
@@ -77,7 +78,7 @@
             <i onclick="handlesideLink1()" id="arrow1" class='bx bxs-chevron-down htmlcss-arrow arrow  '></i>
             <ul class="sublinkMain1" id="sublinkMain1">
               <li><a href="{{url_for('fin')}}">SIGN IN</a></li>
-              <li><a href="{{url_for('fup')}}">SIGN UP</a></li>
+<!--               <li><a href="{{url_for('fup')}}">SIGN UP</a></li> -->
             </ul>
           </li>
           <li>
@@ -88,7 +89,7 @@
               <li><a href="{{url_for('ssup')}}">SIGN UP</a></li>
             </ul>
           </li>
-          <li><a href="#">ADMIN</a></li>
+          <li><a href="{{url_for('admin}}">ADMIN</a></li>
           <li><a href="#">CONTACT US</a></li>
         </ul>
   </div>
