@@ -206,7 +206,7 @@ def create():
     return render_template("facultyform.html",remsg="Class Room Scheduled")
 
 
-@app.route("/adminin",methods=["POST","GET"))
+@app.route("/adminin",methods=["POST","GET"])
 def adminin():
     mail=request.form.get('email').lower()
     password=request.form.get('pass')
