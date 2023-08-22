@@ -102,9 +102,9 @@ def capture():
     d={"1":"First","2":"Second","3":"Third","4":"Fourth"}
     std_data=database.child(d[year]).child(dept).child(roll_no).get()
     if std_data.val() is None:
-        return render_template("index.html",msg="Check You Credentials correctly")
+        return render_template("stdsignin.html",msg="Check You Credentials correctly")
     if std_data.val()['Room']=="":
-        return render_template("student.html",msg="No Class Scheduled Yet.")
+        return render_template("stdsignin.html",msg="No Class Scheduled Yet.")
 
     encoded_data = captured_image.split(',')[1]
     nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
