@@ -27,7 +27,7 @@ nav .navbar {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  margin: auto;
+  margin: inherit;
   /* background: red; */
   padding: 0 50px;
 }
@@ -180,6 +180,7 @@ nav .navbar .links li:hover .js-sub-menu {
 }
 .navbar .bx-menu {
   display: none;
+  font-size: 31px;
 }
 @media (max-width: 920px) {
   nav .navbar {
@@ -204,6 +205,7 @@ nav .navbar .links li:hover .js-sub-menu {
   }
   .navbar .bx-menu {
     display: block;
+    font-size: 31px;
   }
   nav .navbar .nav-links {
     position: fixed;
@@ -230,8 +232,9 @@ nav .navbar .links li:hover .js-sub-menu {
   }
   .sidebar-logo i,
   .navbar .bx-menu {
-    font-size: 25px;
+    font-size: 31px;
     color: #fff;
+
   }
   nav .navbar .links {
     display: block;
@@ -310,7 +313,7 @@ nav .navbar .links li:hover .js-sub-menu {
   position:absolute;
   top: 70px;
   left: 0px;
-  z-index: 10;
+  z-index: 3;
   display: flex;
   justify-content: center;
   min-height: 100vh;
@@ -353,11 +356,15 @@ nav .navbar .links li:hover .js-sub-menu {
 }
 
 .sidemenu.active .sublinkMain1.active li {
-  display: block;
-  padding-left: 10px;
+  display: flex;
+  padding-left: 15px;
+  margin-top: 2px;
+  gap: 0px;
+  border-width: 0px;
 }
 .sidemenu.active .sublinkMain2 li {
   display: none;
+
 }
 
 .sidemenu.active .sublinkMain2.active li {
