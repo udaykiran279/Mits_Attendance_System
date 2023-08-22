@@ -36,17 +36,19 @@ firebase=pyrebase.initialize_app(config)
 database=firebase.database()
 storage=firebase.storage()
 firebaseConfig1={
-  'apiKey': "AIzaSyBWW3MflR1E_duhKdz-6TD5PQnp6YQmWz0",
-  'authDomain': "staff-details-495df.firebaseapp.com",
-  'projectId': "staff-details-495df",
-  'storageBucket': "staff-details-495df.appspot.com",
-  'messagingSenderId': "750490829584",
-  'appId': "1:750490829584:web:b85fc2a3c27200cf98db95",
-  'measurementId': "G-W4V7K08HL8",
-  'databaseURL':""
+  "apiKey": "AIzaSyBWW3MflR1E_duhKdz-6TD5PQnp6YQmWz0",
+  "authDomain": "staff-details-495df.firebaseapp.com",
+  "databaseURL": "https://staff-details-495df-default-rtdb.firebaseio.com",
+  "projectId": "staff-details-495df",
+  "storageBucket": "staff-details-495df.appspot.com",
+  "messagingSenderId": "750490829584",
+  "appId": "1:750490829584:web:b85fc2a3c27200cf98db95",
+  "measurementId": "G-W4V7K08HL8"
 }
 firebase1=pyrebase.initialize_app(firebaseConfig1)
 auth1=firebase1.auth()
+staffdatabase=firebase1.database()
+staffstorage=firebase1.storage()
 
 
 @app.route("/")
