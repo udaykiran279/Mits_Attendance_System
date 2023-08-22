@@ -70,6 +70,10 @@ def fup():
 def fin():
     return render_template("facultyin.html")
 
+@app.route('/admin')
+def admin():
+    return render_template("admin.html")
+
 
 #student routes
 @app.route("/stdsignup",methods=["POST"])
@@ -164,22 +168,26 @@ def facsignup():
     k=[i for i in request.form.values()]
     email=k[0].lower()
     password=k[1]
-    try:
-        auth1.create_user_with_email_and_password(email,password)
-        return render_template("facultyup.html",msg="Account created Successfully.")
-    except:
-        return render_template("facultyup.html",msg="Email Already Exists")
-
+    fac_id=k[2]
+    d=staffdatabase.child("FACULTY").get()
+    if fac_id in d.val():
+        return render_template("facultyup.html",msg="ID Already Exists")
+    staffdatabase.child("FACULTY").Child(fac_id).set({'EMAIL':email,'PASSWORD':password})
+    staffstorage.child(fac_id).child("sample.txt").put("/sample/sample.txt")
+    return render_template("facultyup.html",msg="Account created Successfully.")
+        
 @app.route("/facsignin",methods=["POST","GET"])
 def facsignin():
     fval=[i for i in request.form.values()]
     email=fval[0].lower()
     password=fval[1]
-    try:
-        auth1.sign_in_with_email_and_password(email,password)
-    except:
+    fac_id=k[2]
+    d=staffdatabase.child("FACULTY").Child(fac_id).get()
+    if d.val()['EMAIL']==email and d.val()['PASSWORD']==password:
+        return render_template("facultyform.html",id=fac_id)
+    else:
         return render_template("facultyin.html",msg="Invalid User or Incorrect Password")
-    return render_template("facultyform.html")
+    
 
 @app.route("/create",methods=["POST","GET"])
 def create():
@@ -196,6 +204,16 @@ def create():
     return render_template("facultyform.html",remsg="Class Room Scheduled")
 
 
+@app.route("/adminin",methods=["POST","GET")
+def adminin():
+    mail=request.form.get('email').lower()
+    password=request.form.get('pass')
+    key=request.form.get('key').upper()
+    d=staffdatabase.child("ADMIN").child(key).get()
+    if d.val()['EMAIL']==mail and d.val()['PASSWORD']==password:
+        return render_template("facultyup.html")
+    else:
+        return render_template("admin.html",msg="Invalid credentials")  
 
 @app.route("/predict",methods=["POST","GET"])
 
