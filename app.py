@@ -173,7 +173,7 @@ def facsignup():
     if fac_id in d.val():
         return render_template("facultyup.html",msg="ID Already Exists")
     staffdatabase.child("FACULTY").Child(fac_id).set({'EMAIL':email,'PASSWORD':password})
-    staffstorage.child(fac_id).child("sample.txt").put("/sample/sample.txt")
+    staffstorage.child(fac_id).child("sample.txt").put("sample/sample.txt")
     return render_template("facultyup.html",msg="Account created Successfully.")
         
 @app.route("/facsignin",methods=["POST","GET"])
