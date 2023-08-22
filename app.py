@@ -225,6 +225,8 @@ def predict():
     room_no=int(request.form.get('roomno'))
     lat=float(request.form.get('lat'))
     lon=float(request.form.get('lon'))
+    if lat=="":
+        return render_template('studentform.html',roll=roll,year=year,dep=dept,rmn=room,course=cour,msg="Click on allow location Button and then proceed.")
     d={"1":"First","2":"Second","3":"Third","4":"Fourth"}
     x=df.drop("place",axis=1)
     y=df.place
