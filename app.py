@@ -171,7 +171,7 @@ def facsignup():
     email=k[0].lower()
     password=k[1]
     fac_id=k[2]
-    d=staffdatabase.child("FACULTY").get()
+    #d=staffdatabase.child("FACULTY").get()
     '''if fac_id in d.val():
         return render_template("facultyup.html",msg="ID Already Exists")'''
     staffdatabase.child("FACULTY").Child(fac_id).set({'EMAIL':email,'PASSWORD':password})
