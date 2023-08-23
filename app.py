@@ -172,8 +172,8 @@ def facsignup():
     password=k[1]
     fac_id=k[2]
     d=staffdatabase.child("FACULTY").get()
-    if fac_id in d.val():
-        return render_template("facultyup.html",msg="ID Already Exists")
+    '''if fac_id in d.val():
+        return render_template("facultyup.html",msg="ID Already Exists")'''
     staffdatabase.child("FACULTY").Child(fac_id).set({'EMAIL':email,'PASSWORD':password})
     staffstorage.child(fac_id).child("sample.txt").put("sample/sample.txt")
     return render_template("facultyup.html",msg="Account created Successfully.")
