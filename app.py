@@ -176,8 +176,6 @@ def facsignup():
         return render_template("facultyup.html",msg="ID Already Exists")
     staffdatabase.child("FACULTY").Child(fac_id).set({'EMAIL':email,'PASSWORD':password})
     staffstorage.child(fac_id).child("sample.txt").put("sample/sample.txt")'''
-    try:
-        auth
     return render_template("facultyup.html",msg="Account created Successfully.")
         
 @app.route("/facsignin",methods=["POST","GET"])
