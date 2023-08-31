@@ -183,10 +183,10 @@ def facsignin():
     fval=[i for i in request.form.values()]
     email=fval[0].lower()
     password=fval[1]
-    '''fac_id=k[2]
-    d=staffdatabase.child("FACULTY").Child(fac_id).get()'''
-    if email=="shahadp@gmail.com" and password=="Shahad@123":
-        return render_template("facultyform.html")
+    fac_id=k[2]
+    d=staffdatabase.child("FACULTY").Child(fac_id).get()
+    if email==d.val()['EMAIL'] and password==d.val()['PASSWORD']:
+        return render_template("facultyform.html",facid=fac_id)
     else:
         return render_template("facultyin.html",msg="Invalid User or Incorrect Password")
     
