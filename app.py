@@ -172,10 +172,10 @@ def facsignup():
     password=k[1]
     fac_id=k[2]
     #d=staffdatabase.child("FACULTY").get()
-    '''if fac_id in d.val():
+    if fac_id in d.val():
         return render_template("facultyup.html",msg="ID Already Exists")
-    staffdatabase.child("FACULTY").Child(fac_id).set({'EMAIL':email,'PASSWORD':password})
-    staffstorage.child(fac_id).child("sample.txt").put("sample/sample.txt")'''
+    staffdatabase.child("FACULTY").child(fac_id).set({'EMAIL':email,'PASSWORD':password})
+    staffstorage.child(fac_id).child("sample.txt").put("sample/sample.txt")
     return render_template("facultyup.html",msg="Account created Successfully.")
         
 @app.route("/facsignin",methods=["POST","GET"])
@@ -184,7 +184,7 @@ def facsignin():
     email=fval[0].lower()
     password=fval[1]
     fac_id=fval[2]
-    d=staffdatabase.child("FACULTY").Child(fac_id).get()
+    d=staffdatabase.child("FACULTY").child(fac_id).get()
     if email==d.val()['EMAIL'] and password==d.val()['PASSWORD']:
         return render_template("facultyform.html",facid=fac_id)
     else:
